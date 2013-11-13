@@ -1,0 +1,226 @@
+\documentclass[a4paper, fontsize=10pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{stmaryrd}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathpazo} %schickere Schriftart für Text
+\usepackage{MnSymbol} %schickere Symbole
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{shadethm}
+\usepackage[all,2cell,ps]{xy}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{color}		%Farben ermöglichen
+\usepackage{colortbl} %Tabellen mit Farbe ermöglichen
+\usepackage{hyperref} %Hyperlinks einfügbarisieren
+\usepackage{fancyvrb} %verbatim mit mehr Variationen
+\usepackage{listings} %Quellcode mit listings einbinden
+\usepackage{moreverb}
+\usepackage{tocloft} %tableofcontent mit Optionen
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{ulem} %neue Befehle für Unterstriche
+\usepackage{algpseudocode}
+
+\lstloadlanguages{Java} %Standardmäßig Java vorher laden
+% Standard-Layout für die Code-Umgebung (alle Sprachen)
+\lstset{%
+      basicstyle=\small\ttfamily,
+     showspaces=false,
+     showtabs=false,
+     columns=fixed,
+     numbers=left,
+     frame=none,
+     numberstyle=\tiny,
+     breaklines=true,
+     showstringspaces=false,
+     xleftmargin=1cm,
+     tabsize=4
+}%
+\setlength\topmargin{-1cm}
+\textheight 23cm
+\textwidth 14cm
+\setlength\oddsidemargin{1cm}
+\setlength\evensidemargin{3.5cm}
+\parindent=0pt
+\setlength{\saveparindent}{\parindent}
+%\pagestyle{empty}
+\newcommand{\rem}[1]{} %rem-Kommentiermöglichkeit
+\definecolor{dg}{rgb}{0.8,0.8,0.8}		%definiert dunkelgrau
+\definecolor{hg}{rgb}{0.95,0.95,0.95}	%definiert hellgrau
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+ 
+\begin{document} 
+
+{\large Algorithmendesign \hfill Gruppe 2}\\  
+{\large Lösungen zu Übungsblatt 3} \hfill Max Bannach\\
+{\large WS 13/14}
+\begin{flushright}Markus Richter (614027)\end{flushright}
+\rule{\textwidth}{.3mm}
+
+\section*{Aufgabe 3.1 Wechselgeld}
+\subsection*{Teilaufgabe 1)}
+Für $C(j,0)$ gibt es für alle $j$ genau eine Möglichkeit: Von allen Münzen werden genau 0 benutzt, also keine. Für $C(0,x)$ gibt es keine Möglichkeit, da es kein Wert ist, den man mit Münzen wiedergeben könnte.\bigskip
+
+Daraus folgte also:\\
+$C(j,0)=1$ und $C(0,x)=0$.\bigskip
+
+Ist $C(j-1,y)$ für alle $y\leq  x$ bereits bekannt, so lässt sich $C(j,x)$ wie folgt darstellen:\\
+$C(j,x)=C(j-1,x)+C(j,x-d_j)$\bigskip
+
+$C(j-1,x)$ beinhaltet alle Möglichkeiten den Wert $x$ ohne die Münze $d_j$ darzustellen. Es fehlt dann noch die Differenz an Möglichkeiten zwischen $C(j,x)$ und $C(j-1,x)$, welche nun mit allen $j$ Münzen dargestellt werden kann: $C(j,x-d_j)$.\bigskip
+
+\textbf{Algorithmus}\\
+Der Algorithmus nutzt eine $j\times x$-Matrix, um bereits errechnete Werte zu speichern (Memoization).\bigskip
+
+
+\begin{lstlisting}[mathescape]
+Algorithmus Wechselgeld:
+EINGABE:  $n$ Anzahl der Muenzen, so dass gilt: Zur Verfuegung stehende Muenzwerte in Cent $d_i$ sind $d_1,\dots,d_n$.
+          $m$ Das Wechselgeld als Cent-Betrag.
+          
+Initiales Fuellen der ersten Zeile mit 0, da $C(0,x)=0$ und der ersten Spalte der nachfolgenden Zeilen mit 1, da $C(j,0)=1$.
+
+$C:=n\times m$-Matrix;
+
+FOR $i=0$ TO $n$ DO
+  FOR $j=1$ TO $m$ DO
+    IF $x-d_j<0$ THEN
+      $C(j,x)=C(j-1,x)+0$;
+    ELSE
+      $C(j,x)=C(j-1,x)+C(j,x-d_j)$;
+    ENDIF
+  OD.
+OD.
+
+RETURN C(n,m);
+
+\end{lstlisting}
+\bigskip
+
+\textbf{Laufzeit}
+
+Zwei Schleifen mit Grenzen $n$ bzw. $m$, wobei $n$ dem $j$ und $m$ dem $x$ aus der Aufgabenstellung entspricht, daraus resultiert: $\mathcal{O}(j\cdot x)$.
+
+\subsection*{Teilaufgabe 2}
+Weil der Algorithmus die Möglichkeiten für Wechselgeld $x$ durch eine Anzahl an Münzen $j$ einschränkt. 
+
+\section*{Aufgabe 3.2 Independent Set}
+\subsection*{Teilaufgabe 1}
+Der Graph wird zerlegt in die zwei Mengen $S_1$ und $S_2$. Jede Menge für sich ist ein Independent-Set, weil aufgrund des Modulo-Operators und der Tatsache, dass es sich um einen Pfad-Graph handelt, immer jeder zweite Knoten ausgelassen wird, sodass die verbleibenden Knoten ihre ursprünglich benachbarten Knoten -- also Knoten zu denen sie eine Kante hatten -- verlieren. Übrig bleiben also isolierte Knoten ohne Kanten dazwischen, demnach also ein Independent-Set. Da nun $S\in \{S_1,S_2\}$ gilt, ist S ebenfalls ein Independent Set.\bigskip
+
+Gegenbeispiel:\bigskip
+
+\begin{center}
+  \begin{tikzpicture}[-,>=stealth',shorten >=1pt,auto,node distance=3cm,
+    thick,main node/.style={circle,draw,font=\sffamily\small\bfseries, text width=1.1cm, align=center}]
+
+    \node[main node] (1) {$v_1$,\\$w_1=10$};
+    \node[main node] (2) [right of=1] {$v_2$,\\$w_2=1$};
+    \node[main node] (3) [right of=2] {$v_3$,\\$w_3=1$};
+    \node[main node] (4) [right of=3] {$v_4$,\\$w_4=10$};
+    \node[main node] (5) [right of=4] {$v_5$,\\$w_5=1$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (1) edge node [right] {} (2)
+      (2) edge node [right] {} (3)
+      (3) edge node [right] {} (4)
+      (4) edge node [right] {} (5);
+      (5) edge node [right] {} (6);
+  \end{tikzpicture}
+\end{center}
+\bigskip
+
+$S_1=\{v_1,v_3,v_5\}$ mit einem Gesamtgewicht von $12$.\\
+$S_2=\{v_2,v_4\}$ mit einem Gesamtgewicht von $11$.\\Daraus ergibt sich laut Algorithmus $S=S_1$ mit einem Gesamtgewicht $12$. Optimal wäre jedoch die Menge $\{v_1,v_4\}$ mit einem Gesamtgewicht $20$.
+
+
+\subsection*{Teilaufgabe 2}
+
+\begin{lstlisting}[mathescape]
+Algorithmus Independent Set:
+EINGABE:  Pfad-Graph $G=(V,E)$ mit $V=\{v_1,\dots,v_n\}$ und Gewichten $w_1,\dots,w_n$
+
+Array $W$ mit $|W|=|V|+2;$ $W[|V|+1]:=0;$ $W[|V|+2]:=0;$
+Mengen $S_{|V|+1}=\emptyset$ und $S_{|V|+2}=\emptyset$
+      
+FOR $i=|V|$ TO $1$ DO
+  IF $w_i + W[i+2]\geq W[i+1]$ THEN
+    $W[i]=w_i + W[i+2]$;
+    $S_i=S_{i+2}\bigcup v_i$;
+    
+  ELSE
+    $W[i]=W[i+1];$
+    $S_i=S_{i+1};$
+    
+  ENDIF
+OD.
+
+RETURN $S=S_i$;
+
+\end{lstlisting}
+
+Das Array $W[i]$ beschreibt die addierten Gewichte bis zum Knoten $i$ rückwärts betrachtet -- da der Algorithmus bei $n$ beginnt. \bigskip
+
+\textbf{Laufzeit}\\
+Eine Schleife, die für jeweils einen Durchlauf konstant viele Schritte berechnet, daraus resultiert eine Laufzeit von $\mathcal{O}(|V|)$.\bigskip
+
+\section*{Aufgabe 3.3 Längste Pfade in sortierten Graphen}
+\subsection*{Teilaufgabe 1}
+Wir haben einen topologisch sortierten Graphen, was bedeutet, dass für einen Knoten $v_i$ nur dann eine Ausgangskante existieren kann, wenn es einen Nachfolgerknoten $v_{i+1}$ gibt, andernfalls würde die Bedingung $(v_i,v_j)\in E$ für $i<j$ nicht zutreffen, da $v_j$ nicht existiert. Weil $v_n$ keinen Nachfolgerknoten hat -- der Knoten ist nach Definition der letzte -- ist $v_n$ immer der eindeutig bestimmte Knoten ohne ausgehende Kante.
+
+\subsection*{Teilaufgabe 2}
+
+\begin{center}
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
+    thick,main node/.style={circle,draw,font=\sffamily\small\bfseries}]
+
+    \node[main node] (1) {$1$};
+    \node[main node] (2) [right of=1] {$2$};
+    \node[main node] (3) [below of=1] {$3$};
+    \node[main node] (4) [right of=3] {$4$};
+    \node[main node] (5) [right of=4] {$5$};
+
+    \path[every node/.style={font=\sffamily\small}]
+      (1) edge node [right] {} (2)
+      (1) edge node [right] {} (3)
+      (2) edge node [right] {} (5)
+      (3) edge node [right] {} (4)
+      (4) edge node [right] {} (5);
+  \end{tikzpicture}
+\end{center}
+\bigskip
+
+Dem Algorithmus nimmt nun den Pfad $1,2,5$ und erreicht damit eine Gesamtlänge $L=2$. Optimal wäre jedoch der Pfad $1,3,4,5$ mit einer Gesamtlänge von $L'=3$. \bigskip
+
+\subsection*{Teilaufgabe 3}
+
+\begin{lstlisting}[mathescape]
+Algorithmus Laengster Pfad:
+EINGABE:  Single Sink Graph $G=(V,E)$ mit $V=\{v_1,\dots,v_n\}$
+          
+Array L der Laenge $|V|$. Initial gefuellt mit 0.
+Leere Verkettete Liste K der Laenge $|V|$.
+
+FOR jeden Knoten v w DO
+  FOR jede Kante (v,w), von v nach w DO
+    IF $L[w]\leq L[v] +1$ THEN
+      $L[w]=L[v_i]$;
+      $K[w]=K[v]\bigcup w$;
+    ENDIF
+  OD.
+OD.
+
+RETURN L;
+
+\end{lstlisting}
+\bigskip
+
+Das Array $L[v_i]$ beschreibt die Länge vom Startknoten zum Knoten $v_i$. Die verkettete Liste K enthält den Pfad.\bigskip
+
+\subsection*{Teilaufgabe 4}
+Für beide Fälle ergibt sich eine Laufzeit von $\mathcal{O}(|V|+|E|)$.
+
+\end{document}

@@ -1,0 +1,90 @@
+\documentclass[a4paper, fontsize=10pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{stmaryrd}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathpazo} %schickere Schriftart für Text
+\usepackage{MnSymbol} %schickere Symbole
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{shadethm}
+\usepackage[all,2cell,ps]{xy}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{color}		%Farben ermöglichen
+\usepackage{colortbl} %Tabellen mit Farbe ermöglichen
+\usepackage{hyperref} %Hyperlinks einfügbarisieren
+\usepackage{fancyvrb} %verbatim mit mehr Variationen
+\usepackage{listings} %Quellcode mit listings einbinden
+\usepackage{moreverb}
+\usepackage{tocloft} %tableofcontent mit Optionen
+\usepackage{ulem} %neue Befehle für Unterstriche
+\lstloadlanguages{Java} %Standardmäßig Java vorher laden
+% Standard-Layout für die Code-Umgebung (alle Sprachen)
+\lstset{%
+      basicstyle=\footnotesize\ttfamily,
+     showspaces=false,
+     showtabs=false,
+     columns=fixed,
+     numbers=left,
+     frame=none,
+     numberstyle=\tiny,
+     breaklines=true,
+     showstringspaces=false,
+     xleftmargin=1cm,
+     tabsize=4
+}%
+\setlength\topmargin{-1cm}
+\textheight 23cm
+\textwidth 14cm
+\setlength\oddsidemargin{1cm}
+\setlength\evensidemargin{3.5cm}
+\parindent=0pt
+\setlength{\saveparindent}{\parindent}
+%\pagestyle{empty}
+\newcommand{\rem}[1]{} %rem-Kommentiermöglichkeit
+\definecolor{dg}{rgb}{0.8,0.8,0.8}		%definiert dunkelgrau
+\definecolor{hg}{rgb}{0.95,0.95,0.95}	%definiert hellgrau
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+ 
+\begin{document} 
+
+{\large Algorithmendesign \hfill Gruppe 2}\\  
+{\large Lösungen zu Übungsblatt 2} \hfill Max Bannach\\
+{\large WS 13/14}
+\begin{flushright}Markus Richter (614027)\end{flushright}
+\rule{\textwidth}{.3mm}
+
+\section*{Aufgabe 2}
+\subsection*{Teilaufgabe a)}
+\begin{align*}
+\cos+j\sin=irgendas
+\\\Leftrightarrow j\sin+\cos=auch irgendwas
+\end{align*}
+\section*{Aufgabe 3}
+$ x_1(n)=(-1)^n $\\
+Divergent gegen $\pm1$, daher periodisch. Die kleinste Periode $T=2$, da $x_1(n)=x_1(n+2)$\bigskip
+
+$ x_2(n)=j^n$\\
+Imaginäre Zahl $j, j^2=-1$, daher kleinste Periode $T=2$\bigskip
+
+$x_4(t)=2\sin(\pi t)+4\sin\left( \dfrac{2\pi t}{3}\right)$\\
+Funktion besteht aus Summe von $\sin$-Funktionen, die $2\pi $-periodisch sind. Daher ist die Summe ebenfalls periodisch.\\
+$\Rightarrow 2\sin (\pi t)$: $T_a=2$.\\$\Rightarrow 4\sin\left( \dfrac{2\pi t}{3}\right)$: $T_b=\dfrac{2\pi}{\dfrac {2\pi}{3}}=3$. Der größte gemeinsame Teiler ist $6$, daher $T=6$\bigskip
+
+$x_4(t)=2\sin(\pi n)+4\sin\left( \dfrac{2\pi n}{3}\right)$. Analog zu $x_3$, der Definitionsbereich ändert nicht an der Periodizität.\bigskip
+
+$x_5(t)=4\sin (t)+5\sin (3t)$\\
+Wieder Summe von zwei $2\pi$-periodischen $\sin$-Funktionen. Daher ebenfalls periodisch.\\
+$4\sin (t):$ gilt offensichtlich $T_a=2\pi$.\\$5\sin (3t): T_b=\dfrac{2\pi}{3} \Rightarrow T=2\pi$\bigskip
+
+$x_6(n)=5\sin (n)+6\sin (3n)$.\\
+Die kleinste Periode $T$ wäre hier auch $2\pi $ allerdings gilt $\pi \notin \mathbb{Z}\Rightarrow$ Keine Periodizität. 
+
+
+\section*{Aufgabe 4}
+
+
+
+\end{document}

@@ -1,0 +1,160 @@
+\documentclass[a4paper, fontsize=10pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{stmaryrd}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathpazo} %schickere Schriftart für Text
+\usepackage{MnSymbol} %schickere Symbole
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{shadethm}
+\usepackage[all,2cell,ps]{xy}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{color}		%Farben ermöglichen
+\usepackage{colortbl} %Tabellen mit Farbe ermöglichen
+\usepackage{hyperref} %Hyperlinks einfügbarisieren
+\usepackage{fancyvrb} %verbatim mit mehr Variationen
+\usepackage{listings} %Quellcode mit listings einbinden
+\usepackage{moreverb}
+\usepackage{tocloft} %tableofcontent mit Optionen
+\usepackage{ulem} %neue Befehle für Unterstriche
+\usepackage{multicol}
+\usepackage{wasysym} %Für \checked (Haken)
+\usepackage{float}%Um Positionierung von Abbildungen zu erzwingen.
+\lstloadlanguages{Java} %Standardmäßig Java vorher laden
+% Standard-Layout für die Code-Umgebung (alle Sprachen)
+\lstset{%
+      basicstyle=\footnotesize\ttfamily,
+     showspaces=false,
+     showtabs=false,
+     columns=fixed,
+     numbers=left,
+     frame=none,
+     numberstyle=\tiny,
+     breaklines=true,
+     showstringspaces=false,
+     xleftmargin=1cm,
+     tabsize=4
+}%
+\setlength\topmargin{-1cm}
+\textheight 23cm
+\textwidth 14cm
+\setlength\oddsidemargin{1cm}
+\setlength\evensidemargin{3.5cm}
+\parindent=0pt
+\setlength{\saveparindent}{\parindent}
+%\pagestyle{empty}
+\newcommand{\rem}[1]{} %rem-Kommentiermöglichkeit
+\definecolor{dg}{rgb}{0.8,0.8,0.8}		%definiert dunkelgrau
+\definecolor{hg}{rgb}{0.95,0.95,0.95}	%definiert hellgrau
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+ 
+\begin{document} 
+
+{\large Theoretische Informatik \hfill Gruppe 3}\\  
+{\large Lösungen zu Übungsblatt 2} \hfill Florian Thaeter\\
+{\large WS 13/14}
+\begin{flushright}Felix Bayer (607241), Nico Kohlmorgen (607490),\\ Justin Neumann (617626), Markus Richter (614027)\end{flushright}
+\rule{\textwidth}{.3mm}
+
+\section*{Aufgabe 2.1 Ableitungen angeben}
+S$\Rightarrow _G$aS$\Rightarrow _G$aaS$\Rightarrow _G$aaaA$\Rightarrow _G$aaabB$\Rightarrow _G$aaabaB$\Rightarrow _G$aaabaa
+
+\section*{Aufgabe 2.2 Korrektheitsbeweis einer Grammatik durchführen}
+\subsection*{1}
+S$\Rightarrow _G$A00A$\Rightarrow _G$A000A$\Rightarrow _G$A0001A$\Rightarrow _G$A0001$\lambda\Rightarrow _G$1A0001$\lambda\Rightarrow _G$1$\lambda$0001$\lambda\Rightarrow _G$10001
+
+\newpage
+
+\subsection*{2}
+Die Grammatik erzeugt die Sprache:\\
+$L=\left\{w\in(0,1)^*\rvert w=u00v \textrm{ für }u\in (0,1)^*, v\in (0,1)^*\right\}$\bigskip
+
+Sei $L=\left\{w\in(0,1)^*\rvert w=u00v \textrm{ für }u\in (0,1)^*, v\in (0,1)^*\right\}$. Wir müssen zeigen, dass $L(G)=L$ gilt. Dazu zeigen wir zwei Richtungen: $L\subseteq L(G)$ und $L(G)\subseteq  L$.\bigskip
+
+Wir beginnen mit $L\subseteq L(G)$. Sei $w\in L$ beliebig. Dann gilt\\$w=u00v \textrm{ für ein }u\in (0,1)^*, \textrm{ und ein }v\in(0,1)^*$. Wenn man nun auf das Startsymbol genau einmal die Regel $S\rightarrow A00A$ anwendet und dann $n$-mal die Regel $A\rightarrow 1A$ und/oder $n$-mal die Regel $A\rightarrow0A$ und dann zweimal die Regel $A\rightarrow\lambda$, so ergeben sich folgende Ableitungsketten:\bigskip
+
+\textbf{Fall 1:}\\
+$S\Rightarrow A00A\Rightarrow ...\Rightarrow uA00vA\Rightarrow uA00v\Rightarrow...\Rightarrow u00v$\bigskip
+
+\textbf{Fall 2:}\\
+$S\Rightarrow A00A\Rightarrow ...\Rightarrow uA00vA\Rightarrow u00vA\Rightarrow ...\Rightarrow u00v$\bigskip
+
+Also gilt $S\Rightarrow^* u00v=w$. Damit gilt auch $w\in L(G)$ und somit $L\subseteq L(G)$.\bigskip
+
+Nun bleibt $L(G)\subseteq L$ zu zeigen. Sei dazu $w\in L(G)$ beliebig. Dann gilt $S\Rightarrow^* w$ über eine Ableitungskette\\
+$s=w_1\Rightarrow...\Rightarrow w_n = w$.\\
+Das Wort $w_1$ enthält ein Nonterminal, nämlich S. Bei jeder Regelanwendung kann die Anzahl der Nonterminale nicht wachsen --- die rechten Regelseiten enthalten immer nur zwei Nonterminale. Demnach enthalten alle $w_i$ höchstens zwei Nonterminale. Es gilt nach Definition der erzeugten Sprache $w\in (0,1)^*$, d. h. $w_n$ enthält keine Nonterminale. Daraus folgt, dass genau im letzten Ableitungsschritt die Regel $A\rightarrow \lambda$ zum zweiten Mal angewandt worden sein muss. Folglich lautete die Ableitung:\bigskip
+
+\textbf{Fall 1:}\\
+$S\Rightarrow A00A\Rightarrow ...\Rightarrow uA00vA \Rightarrow u00vA \Rightarrow ... \Rightarrow u00v$\bigskip
+
+\textbf{Fall 2:}\\
+$S\Rightarrow A00A \Rightarrow ... \Rightarrow uA00vA \Rightarrow uA00v \Rightarrow ... \Rightarrow u00v$\bigskip
+
+Also gilt $w=u00v$ und somit $w\in L$ und somit $L(G)\subseteq L$.
+\begin{flushright}$\blacksquare$\end{flushright}
+\newpage
+
+
+\section*{Aufgabe 2.3 Grammatiken angeben}
+\subsection*{1}
+\begin{multicols}{2}
+$S\Rightarrow 0A\lvert 1A$\\
+$A\Rightarrow 00A\lvert 10A\lvert 01A \lvert 11A\lvert \lambda$\columnbreak
+
+Dadurch, dass ein Wort anfänglich immer die Länge 1 hat danach nur um zwei Terminale erweitert werden kann, ist die Länge immer ungerade.
+\end{multicols}
+
+\subsection*{2}
+\begin{multicols}{2}
+$S\Rightarrow 1S\lvert 00A\lvert 0S$\\
+$A\Rightarrow 0A\lvert 1A\lvert \lambda$\columnbreak
+
+Das Beenden der Ableitung ist nur möglich über den Schritt $S\Rightarrow00A$, damit wird garantiert, dass $00$ als Teilwort vorkommt.
+\end{multicols}
+
+\subsection*{3}
+\begin{multicols}{2}
+$S\Rightarrow 0S\lvert A$\\
+$A\Rightarrow 1A\lvert \lambda$\columnbreak
+
+Nach einer 1 kann nach Definition keine 0 folgen. 
+\end{multicols}
+
+\subsection*{4}
+\begin{multicols}{2}
+$S\Rightarrow 0S\lvert A$\\
+$A\Rightarrow 1A\lvert \lambda$\columnbreak
+
+Im Grunde dasselbe wie oben.
+\end{multicols}
+
+\section*{Aufgabe 2.4 Regelart angeben}
+
+\begin{table}[H]
+  \label{tab:}
+
+  \begin{center}
+    \begin{tabular}{rccc}
+        Nr. & regulär & kontextfrei & kontextsensitiv \\
+        1 & \checked & \checked & X\\
+        2 & \checked & \checked & X\\
+        3 & X & X & X\\
+        4 & \checked & \checked & \checked\\
+        5 & X & \checked & \checked\\
+        6 & X & \checked & \checked\\
+        7 & X & X & \checked\\
+        8 & X & X & X\\
+        9 & X & X & X\\
+     
+    \end{tabular}
+  \end{center}
+\caption{Aufgabe 2.4}
+\end{table}
+
+
+\end{document}
+
