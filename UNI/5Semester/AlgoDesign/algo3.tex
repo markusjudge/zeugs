@@ -55,25 +55,78 @@
 \begin{document} 
 
 {\large Algorithmendesign \hfill Gruppe 2}\\  
-{\large Lösungen zu Übungsblatt 3} \hfill Max Bannach\\
+{\large Lösungen zu Übungsblatt 4} \hfill Max Bannach\\
 {\large WS 13/14}
 \begin{flushright}Markus Richter (614027)\end{flushright}
 \rule{\textwidth}{.3mm}
 
-\section*{Aufgabe 3.1 Wechselgeld}
+\section*{Aufgabe 4.1 Editierdistanz}
 \subsection*{Teilaufgabe 1)}
-Für $C(j,0)$ gibt es für alle $j$ genau eine Möglichkeit: Von allen Münzen werden genau 0 benutzt, also keine. Für $C(0,x)$ gibt es keine Möglichkeit, da es kein Wert ist, den man mit Münzen wiedergeben könnte.\bigskip
 
-Daraus folgte also:\\
-$C(j,0)=1$ und $C(0,x)=0$.\bigskip
+$lev(s,t)=lev(t,s)$ gilt immer, angenommen man will $s$ in $t$ umwandeln und führt im optimalen Fall -- also eine Umwandlung mit minimalen Kosten -- an einer oder mehreren bestimmten Stellen $s_i$ eine Ersetzung durch $t_j$ aus, so dreht sich das im umgekehrten Fall um: $t_j$ wird durch $s_i$ ersetzt, die Kosten betragen also für das Ersetzen beide Male $c_2$. Für das Einfügen gilt: Hat man in einer Umwandlungsrichtung eingefügt muss man in der anderen Richtung löschen, d. h. es fallen beide Male kosten von $c_1$ an. Für das Löschen gilt das Umgekehrte. Daraus folgt also, dass die Kosten, also die Levenshtein-Distanz, für $lev(s,t)=lev(t,s) $.
 
-Ist $C(j-1,y)$ für alle $y\leq  x$ bereits bekannt, so lässt sich $C(j,x)$ wie folgt darstellen:\\
-$C(j,x)=C(j-1,x)+C(j,x-d_j)$\bigskip
+\subsection*{Teilaufgabe 2)}
+$lev(\epsilon,\epsilon)=0 $, $lev(\epsilon,t)=|t|$, $lev(s,\epsilon)=|s|$
 
-$C(j-1,x)$ beinhaltet alle Möglichkeiten den Wert $x$ ohne die Münze $d_j$ darzustellen. Es fehlt dann noch die Differenz an Möglichkeiten zwischen $C(j,x)$ und $C(j-1,x)$, welche nun mit allen $j$ Münzen dargestellt werden kann: $C(j,x-d_j)$.\bigskip
+\subsection*{Teilaufgabe 3)}
+Es gilt $|s'|+|t'|<|s|+|t|$, daraus folgt, dass entweder $|s'|=|s| \wedge |t'|<|t|$ oder $|s'|<|s|\wedge |t'|=|t|$ möglich ist. Weiterhin definiere ich die Funktion Prefix $pref(x_i)$. Sie liefert das Wort $x_0...x_{i-1}$, d. h. $|pref(x)|<|x|$. Es ergeben sich die folgenden Möglichkeiten:\bigskip
 
-\textbf{Algorithmus}\\
-Der Algorithmus nutzt eine $j\times x$-Matrix, um bereits errechnete Werte zu speichern (Memoization).\bigskip
+\textbf{Löschen}\smallskip
+
+$lev(s,t)=lev(pref(s),t)+1$
+Das bedeutet, man addiert zu der Distanz, die sich durch das Löschen ergibt, noch die Kosten für das Löschen selbst.\bigskip
+
+\textbf{Einfügen}\smallskip
+$lev(s,t)=lev(t,pref(t))+1$
+Es beschreibt also einen Übergang vo
+
+\bigskip
+
+\textbf{Ersetzen}\smallskip
+$lev(s,t)=lev(pref(s),pref(t))+1$ (aber nur wenn verglichene Zeichen unterschiedlich). Das bedeutet, wenn eine Ersetzung stattfindet ist nur die Distanz beider Prefixe relevant zzgl. der Kosten für eine Ersetzung -- sofern die verglichenen Zeichen unterschiedlich sind.\bigskip
+
+Da man damit alle Möglichkeiten betrachtet hat, da aber die Levenshtein-Distanz die minimalen Kosten zurück gibt, muss aus den ermittelten Werten das Minimum gewählt werden.
+
+\subsection*{Teilaufgabe 4)}
+
+$lev(s,t) = \begin{cases}
+
+\max(|s|,|t|) &\textrm{if $\min(|s|,|t|)=0$},\\
+    min \begin{cases}
+        lev(prefix(s),t)+1 & \\
+        lev(s,prefix(t))+1 & \\
+        lev(prefix(s),prefix(t)) + 1_{\textrm{(Zeichen ungleich)}}
+        
+        \end{cases} & \textrm{sonst.}
+        
+  \end{cases}      $
+
+Der Algorithmus arbeitet rekursiv, allerdings unter Zuhilfenahme der dynamischen Programmierung, d. h. es wird eine Matrix $D_{i,j}$ erstellt, wobei 
+$1\leq i\leq |s|$ und $1\leq j \leq |t|$ . Die Zeilen $1\dots |s|$ repräsentieren die einzelnen Zeichen des Wortes $s$ und die Spalten $1\dots |t|$ die einzelnen Zeichen des Wortes $t$. \\
+
+Die Matrix wird initial mit Werten gefüllt, die auf der untersten Rekursionsstufe zurückgegeben werden. Das initiale Füllen läuft folgendermaßen ab:
+
+\begin{itemize}
+  \item Die 0te Zelle  $D_{0,0}$ wird mit $0$ initialisiert und beschreibt die Distanz zwischen zwei leeren Worten. 
+  \item Die Zellen $D_{0,1}$ bis $D_{0,|t|}$ werden mit der Stelligkeit ihrer Position im Wort $t$ initialisiert, da der Abstand zwischen dem leeren Wort und einem Wort $t$ nur $|t|$ sein kann.
+  \item Entsprechend werden die Spalten $D_{1,0}$ bis $D_{|s|,0}$ ebenfalls nach der Stelligkeit im Wort $s$ initialisiert, da der Abstand eines Wortes $s$ zu einem leeren Wort nur $|s|$ sein kann.
+\end{itemize}
+
+Danach erfolgt das Befüllen rekursiv nach der oben angegebenen mathematischen Funktion $lev()$, wobei sich $D_{i,j}$ wie folgt berechnet:
+$D_{i,j}=lev(s_{i},t_{j})$; $s_{i}, t_{j}$ beschreiben die Worte s,t bis zur Stelle $i,j$. \bigskip
+
+\textbf{Korrektheit}\smallskip
+
+Der Algorithmus sorgt dafür, dass die erste Zeile und Spalte initial gefüllt werden. Dadurch wird gewährleistet, dass das Ergebnis der Rekursion auf der untersten Stufe einen Wert zurück liefert, der auf der nächst höheren Stufe verwendet werden kann usw. Daraus folgt, dass der Algorithmus definitiv einen Wert zurück gibt. Dieser ist korrekt, da wie beschrieben sämtliche Möglichkeiten (Löschen, Einfügen, Ersetzen) stets in Betracht gezogen werden, dann jedoch nur das Minimum gewählt wird.\bigskip
+
+\textbf{Laufzeit}\smallskip
+
+Es wird mit einer Matrix gerechnet, jedoch mit dynamischer Programmierung, d. h. die Vergleiche (Einfügen, Ersetzen, Löschen) und die Additionen sind konstant. Es resultiert also eine Laufzeit von $\mathcal{O}(|s|\cdot|t|)$.
+
+\subsection*{Teilaufgabe 4)}
+\begin{lstlisting}
+\lstinputlisting{}
+\end{lstlisting}
 
 
 \begin{lstlisting}[mathescape]
