@@ -1,0 +1,69 @@
+% This template is kept quite simple in order to maintain the possibility of
+% merging different documents using this particular template into a single
+% volume. Please do not change the following layouting options.
+\documentclass[
+  a4paper,               % a4 paper
+  twoside,               % two sided
+  headings=small,        % chapter and section headings are smaller
+  DIV=12,                % use a 12 part division of paper
+  BCOR=1cm,              % use 1cm correction for binding
+  headinclude=true,      % include header inside typearea
+  footinclude=true,      % include footer inside typearea
+  numbers=noenddot,      % no full stop after after last number of titles
+  11pt]{scrartcl}        % 11 point article
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{palatino}
+\usepackage{graphicx}
+\usepackage{caption}
+\fontfamily{ppl}
+\selectfont
+\pagestyle{empty}
+\usepackage{setspace}
+\setlength{\parindent}{0ex}
+\setlength{\parskip}{0.5em}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{listings}
+
+
+% You may add additional libraries here, but please do not mix up the layout.
+
+\usepackage{graphicx}
+\usepackage{tikz}
+
+
+
+\lstset{% 
+numbers=left, numberfirstline=true
+}%
+\begin{document}
+
+\begin{center}
+\textbf{\huge Review of \emph{Agile Development Scrum}} \\[1em]
+Markus Richter (\url{richter@informatik.uni-luebeck.de})
+\end{center}
+
+% \tableofcontents
+
+\section*{Overview}
+The article "Agile Development Scrum" addresses agile software development, especially a technique called \emph{Scrum}. The author starts with a quote of a manifesto for agile software development to make clear what the general conditions are. He then proceeds with five examples, namely, Adaptive Software Development (ASD), Ex-
+treme Programming (XP), Future Driven Development (FDD), Kanban, Behavior
+Driven Development (BDD) and scrum. Each examples is explained briefly. Scrum --- taking the main part of the article --- is suitable for projects with a small staff of developers. Many meetings have to be held and there are roles taken on by the involved persons, abstract artefacts like the vision of the project or more precise artefacts like Sprint Goal which is a time period given to finish certain nationalities. The author then describes the different kinds of meetings which can occur. Finally, advantages and disadvantages of scrum are mentioned, like e. g. it provides a structure but on the other hand it neglects the documentation. 
+
+\section*{General Comments}
+First, the article is in German, but hereinafter it will be ignored. 
+
+The author describes the mentioned techniques, more or less, independently, so unfortunately, there is barely a red thread. Instead of describing them each for itself, it could be explained what the differences and connections between those techniques are. 
+
+Each example for itself is, mostly, well explained and articulated. Still, there are some misspellings and grammatical errors. Some formulations are difficult to understand, e. g. in section 1.6 on page 5. 
+
+The paper is structured coherently, although in some cases an enumeration would be better than a listing, e. g. in section 2.1 on page 6. 
+
+The author mentions some serious disadvantages of scrum, but unfortunately, it is not always clear why it is so. For example, he mentions that scrum and other agile software development techniques neglect documentation, but there is no explanation for it in the paper.  
+
+Sadly, there are only two sources mentioned and and very few quotations are made, so it is not clear whether the paper is based on the experience of the author or on the mentioned sources. 
+
+\end{document}

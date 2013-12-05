@@ -1,0 +1,71 @@
+% This template is kept quite simple in order to maintain the possibility of
+% merging different documents using this particular template into a single
+% volume. Please do not change the following layouting options.
+\documentclass[
+  a4paper,               % a4 paper
+  twoside,               % two sided
+  headings=small,        % chapter and section headings are smaller
+  DIV=12,                % use a 12 part division of paper
+  BCOR=1cm,              % use 1cm correction for binding
+  headinclude=true,      % include header inside typearea
+  footinclude=true,      % include footer inside typearea
+  numbers=noenddot,      % no full stop after after last number of titles
+  11pt]{scrartcl}        % 11 point article
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{palatino}
+\usepackage{graphicx}
+\usepackage{caption}
+\fontfamily{ppl}
+\selectfont
+\pagestyle{empty}
+\usepackage{setspace}
+\setlength{\parindent}{0ex}
+\setlength{\parskip}{0.5em}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{listings}
+
+
+% You may add additional libraries here, but please do not mix up the layout.
+
+\usepackage{graphicx}
+\usepackage{tikz}
+
+
+
+\lstset{% 
+numbers=left, numberfirstline=true
+}%
+\begin{document}
+
+\begin{center}
+\textbf{\huge Gesprächsprotokoll} \\[1em]
+Markus Richter (\url{richter@informatik.uni-luebeck.de})
+\end{center}
+
+% \tableofcontents
+
+\section*{Well-structured transition systems (WSTS)}
+Am Mittwoch, dem 27.12.2013, wandte ich mit an die zwei Mitarbeiter des \emph{Institute For Software Engineering and Programming Languages} Normann Decker und Daniel Thoma, um über ein mögliches Thema für die Bachelorarbeit zu sprechen. Beide zeigten sich erfreut und Normann blickte durch eine Liste möglicher Themen. 
+
+Auf die Frage, ob ich mich für Themen aus dem Gebiet der Theoretischen Informatik, speziell Transitionssysteme wie Petri-Netze, interessiere -- was ich bejahte --, wurde mir ein aktuelles Anliegen vorgestellt: Ein Thema an dem die beiden aktuell arbeiteten. Es ging dabei um \emph{Well-structured transition systems} (WSTS), was ich in einem weiteren Dokument (Vorläufige Tehmenbeschreibung) erläutere. Grundsätzlich geht es darum ein Transitionssystem durch eine Quasi-Ordnung der Zustände so zu optimieren, dass das Entscheidungsproblem mit unterschiedlichen algorithmischen Methoden lösbar wird. 
+
+Beide versicherten mir, dass es dabei weniger um theoretische Forschung meinerseits gehen würde, sondern mehr um die Implementierung von Methoden zur Nutzung des bereits Bekannten. Wichtig dabei wäre eine generische Implementierung und eine geeignete Datenstruktur. 
+
+Als Anlaufstelle empfahlen mir beide ein Paper mit dem Thema "Well-structured transition systems everywhere!" von A. Finkel und Ph. Schnoebelen und wiesen mich darauf hin zunächst die ersten drei Kapitel zu lesen, um mir einen etwas genaueren Eindruck zu verschaffen.
+
+Wir alle waren uns darin einig, dass die gegebenen Rahmenbedingungen von Präsentieren und Dokumentieren gut seien, da wir so die Zeit in diesem Semester nutzen können, um zu prüfen wie sich der weitere Verlauf entwickelt und im günstigen Fall auch eine echte Bachelorarbeit durchaus denkbar wäre. \bigskip
+
+\textbf{Teilnehmende Personen:}\smallskip
+
+\begin{itemize}
+\item Normann Decker (ISP)
+\item Daniel Thoma (ISP)
+\item Markus Richter
+\end{itemize}
+
+
+\end{document}

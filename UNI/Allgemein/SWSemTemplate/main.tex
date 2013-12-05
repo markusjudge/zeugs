@@ -1,0 +1,100 @@
+% This template is kept quite simple in order to maintain the possibility of
+% merging different documents using this particular template into a single
+% volume. Please do not change the following layouting options.
+\documentclass[
+  a4paper,               % a4 paper
+  twoside,               % two sided
+  headings=small,        % chapter and section headings are smaller
+  DIV=12,                % use a 12 part division of paper
+  BCOR=1cm,              % use 1cm correction for binding
+  headinclude=true,      % include header inside typearea
+  footinclude=true,      % include footer inside typearea
+  numbers=noenddot,      % no full stop after after last number of titles
+  11pt]{scrartcl}        % 11 point article
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{palatino}
+\fontfamily{ppl}
+\selectfont
+\pagestyle{empty}
+\usepackage{setspace}
+\setlength{\parindent}{0ex}
+\setlength{\parskip}{0.5em}
+\usepackage{url}
+
+% You may add additional libraries here, but please do not mix up the layout.
+
+\usepackage{graphicx}
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{center}
+\textbf{\huge Web Server} \\[1em]
+Markus Richter (\url{richter@informatik.uni-luebeck.de})
+\end{center}
+
+\tableofcontents
+
+\section*{Abstract}
+
+The internet not only grows larger every day, it also becomes more important and present in nearly every aspect of the modern life. Nowadays it is not simply used for information gain between a few exclusive participants as it was initially intended but instead it is a platform for the purpose of communication, business and entertainment for millions of people. Those services, accessed by web sites, ranging from browser games to e-commerce and online banking, are the key to the success of the internet. \smallskip
+
+The astonishing increase in numbers and functionality is made possible not least due to the use of web servers. Inhomogeneous technologies like PHP or Java Servlet and JavaServer Pages used to implement dynamic behaviour combined with static behaviour and international standards like HTTP are being combined and hidden inside the web servers and being presented as one solution. \smallskip
+
+So as web servers are playing such an important role for the internet in general and for web sites in particular, the questions arise how they can influence the development of web sites towards more attractive and modern web sites and additionally assure quality in the web. To answer this questions this paper will analyse the functionality behind a web server which is needed to fulfil those needs. Furthermore a close look is being taken at some methods and solutions in order to increase the Quality of Service (QoS).
+
+\section{Introduction}
+% The structure of the paper will be as follows. First it is important to make clear what the topic means, therefore an explanation to the term web server will be provided. The core aspect of this paper, still, is its influence on web development in particular and the quality of the web in general and whether a web server can assure it. So additionally a definition for a good and modern website plus an explanation for Quality of Service (QoS) is needed and thus will also be presented. After that follows a brief history in order to put this paper in the right context. As moving on to more precise technology the basic concept of a web server will be illustrated. Unfortunately, this concept alone as a toolbox is not enough to meet the criteria of a good and modern web site, as we call it. Thus the toolbox need to be extended with more technologies (PHP, Java...) which will be introduced and explained. Then, the three most widely used web servers providing the needed set of tools --- the \textbf{Apache Web Server}, \textbf{Tomcat} and the \textbf{Internet Information Services (IIS)} --- will be introduced. In the final step possible answers to the previously mentioned questions will be given and explained.
+
+The structure of the paper will be as follows. First it is important to make clear what the topic means, therefore explanations will be provided to clarify the used terms. After that follows a brief history in order to put this paper in the right context. Then the two main topics are discussed and some existing relevant technologies will be presented. 
+
+\subsection{Definition}
+
+explaint termns
+
+
+\subsection{Concept}
+Web server, HTTP
+
+\subsection{History}
+
+Development of web servers...
+
+\section{Outline}
+
+Tell the reader about the results and where in
+your paper they can find details.
+
+\section{Develop attractive Web Sites}
+
+This is where you describe the problem and how you (or others) solve it.
+
+\subsection{Blabla}
+
+\subsection{Blabla}
+
+\section{Assure Quality}
+
+This may be another topic correlated to the first. It could for example
+solutions to the problems you describe in the previous section.
+
+\subsection{Blabla}
+
+\subsection{Blabla}
+
+\section{Existing Technologies}
+\subsection{Apache}
+\subsection{Internet Information Services (IIS)}
+\subsection{Tomcat}
+
+\section{Conclusions}
+
+From the results of previous chapter you now draw conclusions.
+
+\bibliographystyle{apalike}
+\bibliography{ref}
+
+\end{document}

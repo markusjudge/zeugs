@@ -1,0 +1,61 @@
+% This template is kept quite simple in order to maintain the possibility of
+% merging different documents using this particular template into a single
+% volume. Please do not change the following layouting options.
+\documentclass[
+  a4paper,               % a4 paper
+  twoside,               % two sided
+  headings=small,        % chapter and section headings are smaller
+  DIV=12,                % use a 12 part division of paper
+  BCOR=1cm,              % use 1cm correction for binding
+  headinclude=true,      % include header inside typearea
+  footinclude=true,      % include footer inside typearea
+  numbers=noenddot,      % no full stop after after last number of titles
+  11pt]{scrartcl}        % 11 point article
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{palatino}
+\usepackage{graphicx}
+\usepackage{caption}
+\fontfamily{ppl}
+\selectfont
+\pagestyle{empty}
+\usepackage{setspace}
+\setlength{\parindent}{0ex}
+\setlength{\parskip}{0.5em}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{listings}
+
+
+% You may add additional libraries here, but please do not mix up the layout.
+
+\usepackage{graphicx}
+\usepackage{tikz}
+
+
+
+\lstset{% 
+numbers=left, numberfirstline=true
+}%
+\begin{document}
+
+\begin{center}
+\textbf{\huge Gesprächsprotokoll} \\[1em]
+Markus Richter (\url{richter@informatik.uni-luebeck.de})
+\end{center}
+
+% \tableofcontents
+
+\section*{Well-structured transition systems (WSTS)}
+Das Themengebiet befasst sich mit der formalen Verifikation von Programmen und Systemen. Diese wird sowohl praktisch als auch theoretisch stark erforscht, da sich gezeigt hat, dass Technologien für formale Verifikation auch für realistische Anwendungen in der Industrie verwertbar sind. 
+
+Auf dem Gebiet der endlichen Transitionssysteme gibt es bereits sehr erfolgreiche Ansätze für das \emph{Model-Checking}, sodass es nahe liegt, dass auch funktionierende Verfikations-Technologien für eine unendliche Menge an Zuständen entwickelt werden kann. An dieser Stelle tritt die Bedeutung von \emph{well-structured transition systems} (WSTSs) zutage, da die Existenz einer \emph{well-quasi}-Ordnung der unendlichen Menge der Zustände das Terminieren unterschiedlicher algorithmischer Methoden garantiert. 
+
+WSTSs sind Abstrahierungen diverser spezifischer Strukturen und ermöglichen die Ermittlung allgemeiner Ergebnisse bzgl. der Entscheidbarkeit, die z. B. auf Petri-Netze angewandt werden können. 
+
+Das Ziel der Bachelorarbeit ist die Implementierung einer Sättingungsmethode -- in Java oder Scala --, die dazu dient das \emph{Coverability-Problem} zu lösen. Dabei müssen die gesättigten Mengen errechnet werden. Weiterhin müssen diese Mengen mit einer geeigneten Datenstruktur repräsentiert werden. 
+
+
+\end{document}

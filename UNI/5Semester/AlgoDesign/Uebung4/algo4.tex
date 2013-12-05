@@ -1,0 +1,220 @@
+\documentclass[a4paper, fontsize=10pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{stmaryrd}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathpazo} %schickere Schriftart für Text
+\usepackage{MnSymbol} %schickere Symbole
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{shadethm}
+\usepackage[all,2cell,ps]{xy}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{color}		%Farben ermöglichen
+\usepackage{colortbl} %Tabellen mit Farbe ermöglichen
+\usepackage{hyperref} %Hyperlinks einfügbarisieren
+\usepackage{fancyvrb} %verbatim mit mehr Variationen
+\usepackage{listings} %Quellcode mit listings einbinden
+\usepackage{moreverb}
+\usepackage{tocloft} %tableofcontent mit Optionen
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{ulem} %neue Befehle für Unterstriche
+\usepackage{algpseudocode}
+
+\lstloadlanguages{Java} %Standardmäßig Java vorher laden
+% Standard-Layout für die Code-Umgebung (alle Sprachen)
+\lstset{%
+      tabsize=3
+}%
+\setlength\topmargin{-1cm}
+\textheight 23cm
+\textwidth 14cm
+\setlength\oddsidemargin{1cm}
+\setlength\evensidemargin{3.5cm}
+\parindent=0pt
+\setlength{\saveparindent}{\parindent}
+%\pagestyle{empty}
+\newcommand{\rem}[1]{} %rem-Kommentiermöglichkeit
+\definecolor{dg}{rgb}{0.8,0.8,0.8}		%definiert dunkelgrau
+\definecolor{hg}{rgb}{0.95,0.95,0.95}	%definiert hellgrau
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+ 
+\begin{document} 
+
+{\large Algorithmendesign \hfill Gruppe 2}\\  
+{\large Lösungen zu Übungsblatt 4} \hfill Max Bannach\\
+{\large WS 13/14}
+\begin{flushright}Markus Richter (614027)\end{flushright}
+\rule{\textwidth}{.3mm}
+
+\section*{Aufgabe 4.1 Editierdistanz}
+\subsection*{Teilaufgabe 1)}
+
+$lev(s,t)=lev(t,s)$ gilt immer, angenommen man will $s$ in $t$ umwandeln und führt im optimalen Fall -- also eine Umwandlung mit minimalen Kosten -- an einer oder mehreren bestimmten Stellen $s_i$ eine Ersetzung durch $t_j$ aus, so dreht sich das im umgekehrten Fall um: $t_j$ wird durch $s_i$ ersetzt, die Kosten betragen also für das Ersetzen beide Male $c_2$. Für das Einfügen gilt: Hat man in einer Umwandlungsrichtung eingefügt muss man in der anderen Richtung löschen, d. h. es fallen beide Male kosten von $c_1$ an. Für das Löschen gilt das Umgekehrte. Daraus folgt also, dass die Kosten, also die Levenshtein-Distanz, für $lev(s,t)=lev(t,s) $.
+
+\subsection*{Teilaufgabe 2)}
+$lev(\epsilon,\epsilon)=0 $, $lev(\epsilon,t)=|t|$, $lev(s,\epsilon)=|s|$
+
+\subsection*{Teilaufgabe 3)}
+Es gilt $|s'|+|t'|<|s|+|t|$, daraus folgt, dass entweder $|s'|=|s| \wedge |t'|<|t|$ oder $|s'|<|s|\wedge |t'|=|t|$ möglich ist. Weiterhin definiere ich die Funktion Prefix $pref(x_i)$. Sie liefert das Wort $x_0...x_{i-1}$, d. h. $|pref(x)|<|x|$. Es ergeben sich die folgenden Möglichkeiten:
+
+\begin{itemize}
+  \item \textbf{Löschen}: $lev(s,t)=lev(pref(s),t)+1$. Das bedeutet, man addiert zu der Distanz, die sich durch das Löschen ergibt, noch die Kosten für das Löschen selbst.
+  \item \textbf{Einfügen}: $lev(s,t)=lev(t,pref(t))+1$ 
+  \item \textbf{Ersetzen}: $lev(s,t)=lev(pref(s),pref(t))+1$ (aber nur wenn verglichene Zeichen unterschiedlich). Das bedeutet, wenn eine Ersetzung stattfindet ist nur die Distanz beider Prefixe relevant zzgl. der Kosten für eine Ersetzung -- sofern die verglichenen Zeichen unterschiedlich sind.
+\end{itemize}
+
+\bigskip
+
+Da man damit alle Möglichkeiten betrachtet hat, da aber die Levenshtein-Distanz die minimalen Kosten zurück gibt, muss aus den ermittelten Werten das Minimum gewählt werden.
+
+\newpage
+\subsection*{Teilaufgabe 4)}
+
+$lev(s,t) = \begin{cases}
+
+\max(|s|,|t|) &\textrm{if $\min(|s|,|t|)=0$},\\
+    \min \begin{cases}
+        lev(prefix(s),t)+1 & \\
+        lev(s,prefix(t))+1 & \\
+        lev(prefix(s),prefix(t)) + 1_{\textrm{(Zeichen ungleich)}}
+        
+        \end{cases} & \textrm{sonst.}
+        
+  \end{cases}      $\bigskip
+
+Der Algorithmus arbeitet rekursiv, allerdings unter Zuhilfenahme der dynamischen Programmierung, d. h. es wird eine Matrix $D_{i,j}$ erstellt, wobei 
+$1\leq i\leq |s|$ und $1\leq j \leq |t|$ . Die Zeilen $1\dots |s|$ repräsentieren die einzelnen Zeichen des Wortes $s$ und die Spalten $1\dots |t|$ die einzelnen Zeichen des Wortes $t$. \\
+
+Die Matrix wird initial mit Werten gefüllt, die auf der untersten Rekursionsstufe zurückgegeben werden. Das initiale Füllen läuft folgendermaßen ab:
+
+\begin{itemize}
+  \item Die 0te Zelle  $D_{0,0}$ wird mit $0$ initialisiert und beschreibt die Distanz zwischen zwei leeren Worten. 
+  \item Die Zellen $D_{0,1}$ bis $D_{0,|t|}$ werden mit der Stelligkeit ihrer Position im Wort $t$ initialisiert, da der Abstand zwischen dem leeren Wort und einem Wort $t$ nur $|t|$ sein kann.
+  \item Entsprechend werden die Spalten $D_{1,0}$ bis $D_{|s|,0}$ ebenfalls nach der Stelligkeit im Wort $s$ initialisiert, da der Abstand eines Wortes $s$ zu einem leeren Wort nur $|s|$ sein kann.
+\end{itemize}
+
+Danach erfolgt das Befüllen rekursiv nach der oben angegebenen mathematischen Funktion $lev()$, wobei sich $D_{i,j}$ wie folgt berechnet:
+$D_{i,j}=lev(s_{i},t_{j})$; $s_{i}, t_{j}$ beschreiben die Worte s,t bis zur Stelle $i,j$. \bigskip
+
+\textbf{Korrektheit}\smallskip
+
+Der Algorithmus sorgt dafür, dass die erste Zeile und Spalte initial gefüllt werden. Dadurch wird gewährleistet, dass das Ergebnis der Rekursion auf der untersten Stufe einen Wert zurück liefert, der auf der nächst höheren Stufe verwendet werden kann usw. Daraus folgt, dass der Algorithmus definitiv einen Wert zurück gibt. Dieser ist korrekt, da wie beschrieben sämtliche Möglichkeiten (Löschen, Einfügen, Ersetzen) stets in Betracht gezogen werden, dann jedoch nur das Minimum gewählt wird.\bigskip
+
+\textbf{Laufzeit}\smallskip
+
+Es wird mit einer Matrix gerechnet, jedoch mit dynamischer Programmierung, d. h. die Vergleiche (Einfügen, Ersetzen, Löschen) und die Additionen sind konstant. Es resultiert also eine Laufzeit von $\mathcal{O}(|s|\cdot|t|)$.
+
+\newpage
+
+\subsection*{Teilaufgabe 4)}
+
+\lstinputlisting[language=Java]{levAlgo.java}
+
+\newpage
+
+\section*{Weihnachtsfeier}
+\subsection*{Teilaufgabe 1)}
+
+\tikzset{
+  treenode/.style = {align=center, inner sep=0pt, text centered,
+    font=\sffamily},
+  arn_n/.style = {treenode, circle, font=\sffamily\bfseries, draw=green, very thick, text width=1.5em},% arbre rouge noir, noeud noir
+  arn_r/.style = {treenode, circle, red, draw=red, 
+    text width=1.5em, very thick},% arbre rouge noir, noeud rouge
+  arn_x/.style = {treenode,
+    minimum width=0.5em, minimum height=0.5em}% arbre rouge noir, nil
+}
+
+\begin{center}
+\begin{tikzpicture}[->,node distance=3,scale=2,
+  state/.style={fill=blue!15,draw,circle}]
+  \node[state] (q) at (0,0) {q};
+  \node[state] (a) at (0.8,0) {a};
+  \node[state] (d) at (2.2,0) {d};
+  \node[state] (s) at (3,0) {s};
+  \node[state] (b) at (1.5,0.5) {b};
+  \node[state] (c) at (1.5,-0.5) {c};
+  \path[every node/.style={inner sep=0.3mm}]
+  (q) edge[out=45,in=180] node[above left] {5/10} (b)
+  (q) edge node [above] {8/8} (a)
+  (q) edge[out=-45,in=180] node[below left] {5/5} (c)
+  
+  (a) edge node[above left] {0/3} (b)
+  (a) edge node [above] {8/10} (d)
+  (a) edge node[below left] {0/3} (c)
+  
+  (b) edge node[above right] {0/3} (d)
+  (b) edge[out=0,in=135] node[above right] {5/5} (s)
+  (c) edge node[below right] {0/3} (d)
+  (c) edge[out=0,in=-135] node[below right] {5/10} (s)
+  
+  (d) edge node [above] {8/8} (s);
+\end{tikzpicture}
+\begin{tikzpicture}[xscale=2,yscale=2,
+  state/.style={fill=blue!15,draw,circle},
+  parallel forward/.style={transform canvas={yshift=0.3ex},->,},
+  parallel backward/.style={transform canvas={yshift=-0.3ex},<-,draw=red!90}]
+  \node[state] (q) at (0,0)      {q};
+  \node[state] (a) at (0.8,0)    {a};
+  \node[state] (d) at (2.2,0)    {d};
+  \node[state] (s) at (3,0)      {s};
+  \node[state] (b) at (1.5,0.5)  {b};
+  \node[state] (c) at (1.5,-0.5) {c};
+  \path[->,>=stealth,every node/.style={inner sep=0.3mm}]
+  (q) edge[parallel forward,out=45,in=180]   node[above left]  {5} (b)
+  (q) edge[parallel backward,out=45,in=180]  node[below right] {5} (b)
+  %(q) edge[parallel forward]                 node [above]      {0} (a)
+  (q) edge[parallel backward]                node [below]      {8} (a)
+  %(q) edge[parallel forward,out=-45,in=180]  node[above right] {0} (c)
+  (q) edge[parallel backward,out=-45,in=180] node[below left]  {5} (c)
+  
+  (a) edge[parallel forward]  node[above left]  {3} (b)
+  %(a) edge[parallel backward] node[below right] {0} (b)
+  (a) edge[parallel forward]  node[above]       {2} (d)
+  (a) edge[parallel backward] node[below]       {8} (d)
+  (a) edge[parallel forward]  node[above right] {3} (c)
+  %(a) edge[parallel backward] node[below left]  {0} (c)
+  
+  (b) edge[parallel forward]                node[above right] {3} (d)
+  %(b) edge[parallel backward]               node[below left]  {0} (d)
+  %(b) edge[parallel forward,out=0,in=135]   node[above right] {0} (s)
+  (b) edge[parallel backward,out=0,in=135]  node[below left]  {5} (s)
+  (c) edge[parallel forward]                node[above left]  {3} (d)
+  %(c) edge[parallel backward]               node[below right] {0} (d)
+  (c) edge[parallel forward,out=0,in=-135]  node[above left]  {5} (s)
+  (c) edge[parallel backward,out=0,in=-135] node[below right] {5} (s)
+  
+  %(d) edge[parallel forward]  node [above] {0} (s)
+  (d) edge[parallel backward] node [below] {8} (s);
+\end{tikzpicture}\\
+\end{center}
+
+Sei also $G=(V,E)$ der Graph, der die strikte Hierarchie des Unternehmens darstellt. Jeder Knoten $v_i\in V$ repräsentiert einen Mitarbeiter. Eine Kante $e_j\in V$ definiert zwischen zwei Mitarbeitern die Beziehung Vorgesetzter-Untergebener. Ein grüner Knoten repräsentiert hier einen Mitarbeiter, der teilnehmen kann, d. h. sein direkter Vorgesetzter erscheint nicht. Der Wert im Knoten repräsentiert den Wert $fun(v_i)$.\smallskip
+
+Es folgt aus der Modellierung, dass die Lösung ein \textbf{Independence Set} sein muss, andernfalls würde mindestens ein Mitarbeiter mit seinem direkten Vorgesetzten zur Party erscheinen, was nicht passieren darf. Die Lösung muss darüber hinaus die maximale Summe von Knotenwerten aufweisen.
+
+\subsection*{Teilaufgabe 2)}
+Die Hauptidee hinter dem Algorithmus ist folgende: Man wendet eine rekursive Tiefensuche an und gibt zwei 2-Tupel zurück an den Aufrufenden: $((yes),\{v_i\dots v_j\}),((no),\{v_k\dots v_l\})$. $yes$ entspricht dem Spaßwert, falls dieser Mitarbeiter erscheint, $no$, falls nicht. Das zweite Tupelelement ist eine Menge, die die Mitarbeiter enthält, die mit dieser Entscheidung hinzukommen. Es handelt sich also auch um \textbf{Devide and Conquer}, da man das Problem auf jeder Höhe des Baumes durch die Anzahl der Kinder teilt, bis ganz unten an den Blättern nur noch einzelne Probleme gelöst werden müssen.\smallskip
+
+An einem Knoten -- also einem gerade betrachteten Mitarbeiter $w_i$ -- kommt es nur zu folgenden Entscheidungsmöglichkeiten:
+
+\begin{itemize}
+  \item Der Mitarbeiter $w_i$ kommt zur Party: Bilde das $yes$-Tupel ($yes+fun(w_i),\{v_i\dots v_j\}\cup {w_i})$, wobei sich der Wert $yes$ aus der Summe der $no$-Werte seiner Untergebenen berechnet. Die Liste der Mitarbeiter $\{v_i\dots v_j\}$ ergibt sich aus der Vereinigung aller Mengen in den No-Tupeln seiner Untergebenen.  
+  \item Der Mitarbeiter $w_i$ kommt nicht zur Party, man halt also die Wahl ob die Untergeben kommen können oder nicht: Summiere jeweils die $yes$- und die $no$-Werte der Untergebenen und wähle dann das Maximum. Gleichzeitig vereinige die Mengen in den $yes$- bzw. $no$-Tupel und bilde das $no$-Tupel mit dem maximalen Spaßwert und der Menge der dazugehörenden Mitarbeiter.
+  
+Diese beiden Tupel werden zurückgegeben. Jeder Knoten ruft also diese Funktion auf jedes seiner Kinder auf, erhält die Tupel, bildet seine eigenen zwei Tupel entsprechend der Auswahlmöglichkeit oben und gibt sie zurück usw. Das geht solange bis die Rekursion an der Wurzel ist und ein endgültiges Tupel berechnet wurde, aus dem dann das Tupel ausgewählt wird mit dem maximalen Spaßwert. \bigskip
+
+\textbf{Korrektheit}\\
+Der Algorithmus vergleicht in jedem Knoten zwei Fälle, nämlich den Fall, dass der Knoten in Betracht kommt und den Fall, dass nicht. Da der Knoten nur im zweiten Fall bei seinen Kindern den Fall heranzieht, dass diese in Betracht kommen, kann es nur gültige Ergebnisse im Sinne des \textbf{Independence Set} geben. Dazu kommt, dass es in jedem Fall ein Ergebnis gibt, da die Rekursion in jedem Fall nach dem \textbf{Devide and Conquer}-Prinzip an den Blättern einen Wert zurück liefert -- nämlich ein Tupel für eine Entscheidung mit diesem Knoten und eine ohne diesen Knoten $v_i$: $yes$ und $no$-Tupel, wobei $yes-$Tupel$:=(fun(v_i),\{v_i\})$ und $no-Tupel:=(0,\emptyset)$.\smallskip
+
+\textbf{Laufzeit}\\
+In der Rekursion ruft man jeden Knoten genau einmal auf. Bei jedem Knoten gibt es eine Berechnung bzgl. der Summe und eines Maximalwertes. Hinzu kommen die Vereinigungen der Listen. Dieser Aufwand ist jedoch pro Knoten konstant. Abhängig von der Eingabe, angenommen eine Adjazenzliste, resultiert daraus also die Laufzeit $\mathcal{O}(n)$.
+
+
+\end{itemize}
+
+\end{document}

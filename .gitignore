@@ -1,0 +1,16 @@
+*.lyx~
+*.lyx#
+~*
+*.~vsd
+*~
+*.backup
+*.log
+*.out
+*.synctex.gz
+*.aux
+*.toc
+*.fdb_latexmk
+*.bbl
+*.dvi
+*.blg
+
