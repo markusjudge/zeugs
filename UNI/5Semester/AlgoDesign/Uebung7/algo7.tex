@@ -1,0 +1,242 @@
+\documentclass[a4paper, fontsize=10pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{stmaryrd}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathpazo} %schickere Schriftart für Text
+\usepackage{MnSymbol} %schickere Symbole
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{shadethm}
+\usepackage[all,2cell,ps]{xy}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{color}		%Farben ermöglichen
+\usepackage{colortbl} %Tabellen mit Farbe ermöglichen
+\usepackage{hyperref} %Hyperlinks einfügbarisieren
+\usepackage{fancyvrb} %verbatim mit mehr Variationen
+\usepackage{listings} %Quellcode mit listings einbinden
+\usepackage{moreverb}
+\usepackage{tocloft} %tableofcontent mit Optionen
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usetikzlibrary{arrows}
+% \usepackage{ulem} %neue Befehle für Unterstriche
+\usetikzlibrary{arrows,calc,shapes.multipart,chains}
+\usetikzlibrary{calc,positioning}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\lstloadlanguages{Java} %Standardmäßig Java vorher laden
+% Standard-Layout für die Code-Umgebung (alle Sprachen)
+\lstset{%
+      basicstyle=\small\ttfamily,
+     showspaces=false,
+     showtabs=false,
+     columns=fixed,
+     numbers=left,
+     frame=none,
+     numberstyle=\tiny,
+     breaklines=true,
+     showstringspaces=false,
+     xleftmargin=1cm,
+     tabsize=4
+}%
+\setlength\topmargin{-1cm}
+\textheight 23cm
+\textwidth 14cm
+\setlength\oddsidemargin{1cm}
+\setlength\evensidemargin{3.5cm}
+\parindent=0pt
+\setlength{\saveparindent}{\parindent}
+%\pagestyle{empty}
+\newcommand{\rem}[1]{} %rem-Kommentiermöglichkeit
+\definecolor{dg}{rgb}{0.8,0.8,0.8}		%definiert dunkelgrau
+\definecolor{hg}{rgb}{0.95,0.95,0.95}	%definiert hellgrau
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+ 
+\begin{document} 
+
+{\large Algorithmendesign \hfill Gruppe 2}\\  
+{\large Lösungen zu Übungsblatt 7} \hfill Max Bannach\\
+{\large WS 13/14}
+\begin{flushright}Markus Richter (614027)\end{flushright}
+\rule{\textwidth}{.3mm}
+
+\section*{Aufgabe 7.1 Indizierte Listen}
+\subsection*{Teilaufgabe 1)}
+Die Implementierung einer \emph{indizierten Liste} mithilfe verketteter Listen ergibt eine sortierte verkettete Liste. Dabei wird die lineare Reihenfolge der Liste durch die lineare Reihenfolge der Schlüssel definiert: 
+\begin{center}
+\begin{tikzpicture}[list/.style={rectangle split, rectangle split parts=3,
+    draw, rectangle split horizontal},noframe/.style={rectangle split, rectangle split parts=2,
+    draw=none, rectangle split horizontal}, >=stealth, start chain]
+
+  \node[noframe,on chain] (start) {$L.Kopf$};
+  \node[list,on chain] (A) {1\nodepart{two}$x_1$};
+  \node[list,on chain] (B) {2\nodepart{two}$x_2$};
+  \node[noframe, on chain] (C) {$\hdots$};
+  \node[list, on chain] (D) {$n$\nodepart{two}$x_n$\nodepart{three}/};
+  
+  
+  \draw[->] let \p1 = (start.two), \p2 = (A.center) in (\x1,\y2) -- (A);
+  \draw[*->] let \p1 = (A.three), \p2 = (A.center) in (\x1,\y2) -- (B);
+  \draw[*->] let \p1 = (B.three), \p2 = (B.center) in (\x1,\y2) -- (C);
+  \draw[->] let \p1 = (C.two), \p2 = (C.center) in (\x1,\y2) -- (D);
+\end{tikzpicture}
+\end{center}
+
+Das erste Feld enthält den Schlüssel, das zweite den Wert und das dritte den Zeiger \emph{nachf} auf den Nachfolger. Element beschreibt im folgenden das gesamte Listenelement mit allen drei Feldern. Das Element aus der Aufgabenstellung entspricht also hier dem Wert im zweiten Feld. Gibt es keinen Nachfolger für das Element $l$, folgt daraus $l.nachf=\textrm{NIL}$ oder /. Das bedeutet $l$ ist das Ende der Liste. Ein Attribut $L.kopf$ zeigt auf das erste Element der Liste. Wenn $L.kopf=\textrm{NIL}$, so ist die Liste leer.
+\bigskip
+
+Sei $n$ die Größe der Liste, also der letzte Index. Will man nun in der Liste suchen, so beginnt man bei $L.kopf$ und iteriert bis zum gesuchten Element $l_k$ mit dem Schlüssel $k$ und gibt den Wert des zweiten Feldes, also $x_k$ zurück. Gibt es das Element nicht, so stößt die Suche nach $n<k$ Iterationen auf $l_{i}.nachf=\textrm{NIL}$.  Im schlimmsten Fall erfolgt also eine Iterationen über $n$ Elemente, demnach beträgt die Laufzeit für \textbf{$\textrm{FIND}(k)$} $\mathcal{O}(n).$\smallskip
+
+\textbf{$\textrm{SEARCH}(x)$} funktioniert analog, d. h. es erfolgt eine Iteration über die Elemente $l_i$ der Liste, angefangen bei $L.kopf$. Der Unterschied besteht hier darin, dass $l_i$ mit $x$ nicht bzgl. des Schlüssels verglichen wird, sondern bzgl. des zweiten Feldes $x_i$. Wird ein Element gefunden kann ein $true$ o. ä. zurückgegeben werden. Die Laufzeit beträgt  $\mathcal{O}(n)$.\smallskip
+
+\textbf{$\textrm{INSERT}(k,x)$} iteriert bis zur Stelle $k-1$, ändert den Zeiger $l_{k-1}.nachf$ auf das neue Element $l'_k$, läuft nun von $l_k$ bis $l_n$ durch alle Elemente und inkrementiert deren Schlüssel um 1. Abschließend wird $l'_{k}.nachf$ auf das Element $l_{k+1}$ gesetzt. Die Laufzeit beträgt damit auch $\mathcal{O}(n).$\smallskip
+
+\textbf{$\textrm{DELETE}(k)$} iteriert bis zur Stelle $k$, setzt $l_{k-1}.nachf=l_{k+1}$. Iteriert nun von $l_{k+1}$ bis $l_n$ und dekrementiert die Schlüssel um 1.
+
+\subsection*{Teilaufgabe 2)}
+Da es sich um eine indizierte Liste handelt bietet sich ein \emph{B$^+$-Baum} an, der die inneren Knoten nach dem Index sortiert und nur auf den Blättern Werte enthält, d. h. alle Blätter $b_i$ enthalten einen Zeiger auf den Wert $x_i$.  Außerdem garantiert der B$^+$-Baum, dass alle Blätter auf einer Ebene liegen, der Baum also balanciert ist. 
+
+\begin{center}
+\begin{tikzpicture}
+\tikzstyle{bplus}=[rectangle split, rectangle split horizontal,rectangle split ignore empty parts,draw]
+\tikzstyle{every node}=[bplus]
+\tikzstyle{level 1}=[sibling distance=80mm]
+\tikzstyle{level 2}=[sibling distance=20mm]
+\node {1 \nodepart{two} 7} [->]
+  child {node [->]{1 \nodepart{two} 4 }
+    child {node [->]{1 \nodepart{two} 2 \nodepart{three} 3}}
+    child {node [->]{4 \nodepart{two} 5 \nodepart{three} 6}}   
+  } 
+  child {node [->]{7 \nodepart{two} 10 \nodepart{three} 12 \nodepart{four} 14}
+  child {node [->]{7 \nodepart{two} 8 \nodepart{three}9}}
+  child {node [->]{10\nodepart{two} 11}}
+  child {node [->]{12 \nodepart{two} 13}} 
+  child {node [->]{14\nodepart{two} 15 \nodepart{three} 16}}   }
+;\end{tikzpicture}
+\end{center}
+
+Sei $t\geq 2$ der minimale Grad des B$^+$-Baums. Dann hat jeder Knoten außer der Wurzel mindestens $t-1$ und maximal $2t-1$ Schlüssel und damit mindestens $t$ bzw. $2t$ Kinder. Da auf jeder Ebene die Anzahl zu betrachtender Werte durch $t$ geteilt wird, aber im schlimmsten Fall immer erst nach dem größten Schlüssel verzweigt wird entspricht die Laufzeit für \textbf{$\textrm{FIND}(k)$} $\mathcal{O}(t\log n).$\smallskip
+
+\textbf{$\textrm{SEARCH}(x)$} macht im Grunde dasselbe wie oben, daher auch eine Laufzeit von $\mathcal{O}(t\log n).$\smallskip
+
+Das Einfügen selbst würde ebenfalls logarithmisch ablaufen, da nur gesucht und eingefügt werden muss. Notfalls müssen Knoten verschmolzen oder aufgetrennt werden, was jedoch nicht allzu stark ins Gewicht fällt. Jedoch müssen hierbei alle nachfolgenden Indizes inkrementiert werden, was im schlimmsten Fall $n-1$ sein können, was für \textbf{$\textrm{INSERT}(k,x)$} zu einer Laufzeit von $\mathcal{O}(n)$ führt.
+
+\smallskip
+\textbf{$\textrm{DELETE}(k)$} ist dem Einfügen ähnlich. Auch hier würde das bloße Löschen nur logarithmische Laufzeit benötigen, durch das Ändern der Indizes ergibt sich aber eine Laufzeit von $\mathcal{O}(n)$.
+
+\section*{Aufgabe 7.2 Quadtrees}
+\subsection*{Teilaufgabe 2)}
+siehe Anhang.
+
+\subsection*{Teilaufgabe 2)}
+
+Man hat einen \emph{uniformen Quadtree} $T=(V,E)$. Für die Kinder des Knotens gilt bzgl. der Größe der Fläche jeweils $n/2$. Die Struktur setzt sich rekursiv fort, daraus folgt, dass die Fläche rekursiv halbiert wird. Die Kernidee beim Arbeiten mit $(x,y)$-Koordinaten besteht nun darin, vorerst zu ermitteln im welchen Quadranten sich diese Koordinaten befinden. Möglich sind hier \emph{North-West}, \emph{North-East}, \emph{South-East} und \emph{South-West}. 
+
+Auf jeder Rekursionsstufe $r$ ist es nötig zu wissen, was auf dieser Stufe die Hälfte in $x$- und $y$-Richtung ist, was hier, wegen der quadratischen Dimension, das Gleiche ist. Sei also die aktuelle Rekursionsstufe $r$ und die Hälfte von $x$ bzw. $y$ nun $k$. Es gibt dann für $x$ folgende Möglichkeiten:
+\begin{enumerate}
+\item \textbf{$x>k$:} East
+\item \textbf{$x\leq k$:} West
+\end{enumerate}
+
+Für $y$ analog:
+\begin{enumerate}
+\item \textbf{$x>k$:} South
+\item \textbf{$x\leq k$:} North
+\end{enumerate}
+
+Aus der Kombination der beiden ergibt sich so eindeutig ein Quadrant und damit der gesuchte Kind-Knoten auf der Stufe $r$. Bevor man rekursiv fortfährt müssen nun die $x,y$-Koordinaten ggf. um $k$ dekrementiert werden. Der rekursive Aufruf erfolgt solange bis gilt: $k=1$. Dann ist der Wert nämlich der gesuchte Kind-Knoten selbst auf dieser Stufe. Es wird also immer ein Wert gefunden, der auch korrekt ist.
+
+\subsubsection*{2.1)}
+
+\begin{algorithm}[H]
+  \caption{2.1}
+    \begin{algorithmic}
+        \REQUIRE Quadtree $T=(V,E)$, Grösse $n$, Punkt $p(x,y)$, Wurzel $v\in V$
+        \ENSURE Wert $a$
+        \STATE $k \leftarrow n/2$
+            \WHILE{$k\neq 1$}  
+                \IF{$x > k$}
+                    \IF{$y > k$}
+                      \STATE hole Kante $e\in E,e=(v,w)$, die South-East repräsentiert
+                      \STATE hole $w$ und rufe dich rekursiv auf mit Input: $T, k, p'(x-k,y-k),w$
+                    \ELSE
+                      \STATE hole Kante $e\in E,e=(v,w)$, die North-East repräsentiert
+                      \STATE hole $w$ und rufe dich rekursiv auf mit Input: $T, k, p'(x-k,y),w$       
+                    \ENDIF
+                \ELSE
+                    \IF{$y > k$}
+                      \STATE hole Kante $e\in E,e=(v,w)$, die South-West repräsentiert
+                      \STATE hole $w$ und rufe dich rekursiv auf mit Input: $T, k, p'(x,y-k),w$
+                    \ELSE
+                      \STATE hole Kante $e\in E,e=(v,w)$, die North-West repräsentiert
+                      \STATE hole $w$ und rufe dich rekursiv auf mit Input: $T, k, p'(x,y),w$
+                    \ENDIF
+                \ENDIF
+          
+          \ENDWHILE
+    \STATE Hole analog zu oben eine Kante $e$, nur das in $w$ diesmal ein Wert ist.
+    \STATE $a \leftarrow w$
+    \end{algorithmic}
+\end{algorithm}
+
+\textbf{Korrektheit} folgt aus der Beschreibung oben. \textbf{Laufzeit}: 
+Die Anzahl der zu betrachtenden Werte wird pro Rekursion geviertelt, daraus folgt eine Laufzeit von $\mathcal{O}(\log n)$. 
+
+\subsubsection*{2.2)}
+
+\begin{algorithm}[H]
+  \caption{2.2}
+    \begin{algorithmic}
+        \REQUIRE Quadtree $T=(V,E)$, Grösse $n$, Punkt $p(x,y)$, Wurzel $v\in V,$ Wert $\alpha$
+        \STATE $k \leftarrow n/2$
+            \WHILE{$k\neq 1$}  
+                \IF{$x > k$}
+                    \IF{$y > k$}
+                      \STATE hole Kante $e\in E,e=(v,w)$, die South-East repräsentiert
+                      \STATE hole $w$ und rufe dich rekursiv auf mit Input: $T, k, p'(x-k,y-k),w$
+                    \ELSE
+                      \STATE hole Kante $e\in E,e=(v,w)$, die North-East repräsentiert
+                      \STATE hole $w$ und rufe dich rekursiv auf mit Input: $T, k, p'(x-k,y),w$       
+                    \ENDIF
+                \ELSE
+                    \IF{$y > k$}
+                      \STATE hole Kante $e\in E,e=(v,w)$, die South-West repräsentiert
+                      \STATE hole $w$ und rufe dich rekursiv auf mit Input: $T, k, p'(x,y-k),w$
+                    \ELSE
+                      \STATE hole Kante $e\in E,e=(v,w)$, die North-West repräsentiert
+                      \STATE hole $w$ und rufe dich rekursiv auf mit Input: $T, k, p'(x,y),w$
+                    \ENDIF
+                \ENDIF
+        
+          \ENDWHILE
+    \STATE Hole analog zu oben eine Kante $e$, nur das in $w$ diesmal ein Wert ist.
+    \STATE $w \leftarrow \alpha$
+    \end{algorithmic}
+\end{algorithm}
+
+\textbf{Korrektheit} folgt aus der Beschreibung oben. \textbf{Laufzeit}: 
+Es geschieht im Grunde das Gleiche wie schon im Algorithmus davor, daher auch hier eine Laufzeit von $\mathcal{O}(\log n)$.
+
+\subsection*{Teilaufgabe 3 Glück und Glas}
+\subsubsection*{1}
+
+Ist $\textrm{bursts}(\mathcal{A})=1$, so bleibt nichts anderes übrig als ganz unten anzufangen. Sei also $k=1$ die gerade ausgewählte Sprosse der Leiter. Man wählt den Abstand $k\cdot 0,1\textrm{ Meter}$ und lässt das Glas fallen. Falls es nicht zerbricht inkrementiert man $k$ um $1$ und versucht es nochmal. Das wiederholt man solange bis das Glas bricht. Für die Anzahl der maximalen Versuche gilt $\textrm{steps}(\mathcal{A})=n$, da im schlimmsten Fall das Glas erst bei der höchsten Sprosse bricht, der Algorithmus aber von vorne alle Sprossen durchprobiert. 
+
+\subsubsection*{2}
+Bei einer binären Suchstrategie prüft der Algorithmus beginnend bei einer Sprosse rekursiv:
+Bricht das Glas für die aktuelle Sprosse? Wenn ja gehe zur kleineren Sprosse, wenn nicht, gehe zur größeren Sprosse
+
+Es macht Sinn für die Wurzel $n/2$ zu wählen, um einen möglichst balancierten Baum zu erhalten und damit eine möglichst schnelle Laufzeit. Die maximale Anzahl der Schritte beträgt dann $\textrm{steps}(\mathcal{A})=\log n$, allerdings gehen im schlimmsten Fall -- bei einer sehr hohen Leiter -- viele Gläser kaputt, nämlich nahezu $\textrm{bursts}(\mathcal{A})=n/2$.
+
+\subsubsection*{3}
+Eine mögliche Strategie ist mit $n/4$-Sprossen zu beginnen und jedes Mal, wenn das Glas nicht bricht um $n/4$ zu erhöhen. Wenn das Glas jedoch bricht, fängt man beim letzten Viertel, bei dem das Glas nicht zerbrochen ist, an und benutzt die Strategie aus Teilaufgabe 1, d. h. man geht von Sprosse zu Sprosse. Leider kann das Glas bereits beim ersten Viertel zerbrechen und damit hat man im schlimmsten Fall wieder  $\textrm{steps}(\mathcal{A})=n$ 
+:(
+\end{document}
