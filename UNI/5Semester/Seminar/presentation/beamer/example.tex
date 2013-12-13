@@ -1,0 +1,119 @@
+% This is an example to show the beamer template NewLuebeck.
+\documentclass[9pt]{beamer}
+
+% Alternatively you can use the article mode to print a handout
+%\documentclass{article}
+%\usepackage{beamerarticle}
+
+\usepackage[T1]{fontenc}                    % Ausgabekodierung
+\usepackage[utf8]{inputenc}                 % Eingabekodierung
+\usepackage[english]{babel}               % English 
+
+\mode<presentation>{
+\usetheme{NewLuebeck}
+\title{Web Servers}
+\author[Richter]{Markus Richter}
+\institute{Institut für Softwaretechnik und Programmiersprachen}
+\subject{Beispiel}
+\keywords{Web servers}
+}
+
+\mode<article>{
+\usepackage{document}
+\documentAuthors{Markus Richter}
+\documentTerm{WS 2013}
+\documentDate{\today}
+\documentTitle{Web Servers}
+}
+
+\begin{document}
+
+\frame{\titlepage}
+\mode<article>{\printDocumentHeader}
+
+\begin{frame}
+\frametitle<presentation>{Table of Contents}
+\tableofcontents
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}
+\frametitle<presentation>{Introduction}
+  \begin{itemize}
+    \item The Internet is growing
+    \item Not only for information gain
+    \item Business, communication, entertainment
+    \item Key to the success of the internet
+    \item Made possible by Web servers
+  \end{itemize}
+\end{frame}
+
+\section{Beispiele}
+
+\begin{frame}
+\frametitle<presentation>{Itemize/Enumerate}
+\begin{itemize}
+  \item Item1
+  \item Item2
+  \item Item3
+\end{itemize}
+\begin{enumerate}
+  \item Enum1
+  \item Enum2
+  \item Enum3
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle<presentation>{Blocks}
+\begin{block}{Definition}
+Dies ist eine Definition!
+\end{block}
+\begin{exampleblock}{Beispiel}
+Dies ist ein Beispiel!
+\end{exampleblock}
+\begin{alertblock}{Warnung}
+Dies ist eine Warnung!
+\end{alertblock}
+\end{frame}
+
+\begin{frame}<presentation>
+\frametitle{Only visible in presentation mode}
+This slide is only visible in presentation mode
+\end{frame}
+
+\mode<article>{
+This text is only visible in article mode.
+}
+
+\begin{frame}
+\frametitle<presentation>{TikZ}
+\begin{center}
+\begin{tikzpicture}[scale=1,auto,swap]
+  \clip (0,0) rectangle (8, 5);
+  \draw[color=oceangreen!20!white] (0,0) rectangle (8, 5);
+  \node[box] (a) at (2, 4) {%
+    \parbox{3cm}{Beispiel\newline$1+1=2$}};
+  \node[node] (b) at (6, 4) {$x$};
+  \node[box] (c) at (6, 2.5) {%
+    \parbox{3cm}{$x+x=2x$}};
+  \node[node] (d) at (6, 1) {$y$};
+  \node[box] (e) at (2, 1) {%
+    \parbox{3cm}{Ergebnis\newline$xy+xy=2xy$}};
+  \path[draw,->] (a) -- (b);
+  \path[draw,->] (b) -- (c);
+  \path[draw,->] (c) -- (d);
+  \path[draw,->] (d) -- (e);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\section{Ende}
+
+\begin{frame}
+\frametitle<presentation>{Ende}
+Ich hoffe, diese Vorlage gefällt Ihnen!
+\end{frame}
+
+\end{document}

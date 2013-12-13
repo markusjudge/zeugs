@@ -1,0 +1,125 @@
+%
+% Copyright 2003--2007 by Till Tantau
+% Copyright 2011 by Rene Schoenfelder
+%
+% This file may be distributed and/or modified
+%   1. under the LaTeX Project Public License and/or
+%   2. under the GNU Public License.
+% See the file doc/licenses/LICENSE for more details.
+
+% This style was created for presentations at the University of Luebeck.
+% It is in no way complete nor an official template. But in order to
+% provide a beamer template in an appropriate way of implementing the
+% corporate design, it was created by a student by modifying Till Tantaus
+% previous style template.
+
+% Features:
+% - clear and simple design
+% - including university logo at top left
+%     (can be replaced by the logo of your institute)
+% - palatino font (which is closest to official Myriad, that is not
+%     directly available for latex)
+% - color theme is ocean green
+
+% Warning: This template was not tested on different beamer options
+%          than the default ones. So if there is something wrong
+%          you can of course email the author at
+%          schoenfr@informatik.uni-luebeck.de
+%          but since he has not much experience in writing
+%          tex-styles, he probably won't be able to help you.
+
+% Lübeck, May 17, 2011
+
+\mode<presentation>
+
+% Palatino is closest to official Myriad font, which is not available to LaTeX
+\usepackage{palatino}
+\fontfamily{ppl}
+\selectfont
+
+% Line spacing
+\usepackage{setspace}
+\setstretch{1.0}
+\setlength{\parindent}{0pt}
+\renewcommand*\arraystretch{1.0}
+
+% Make frametitle smaller
+\setbeamerfont{frametitle}{series=\bfseries,size={\fontsize{10}{0}}}
+
+% Fix for beamer font
+\let\Tiny=\tiny
+
+% Base color of corporate identity
+\definecolor{oceangreen}{RGB}{0,75,90}
+\usecolortheme[RGB={0,75,90}]{structure}
+\setbeamercolor*{structure}{fg=oceangreen,bg=oceangreen!20!white}
+\setbeamercolor*{background canvas}{bg=white}
+
+% Use TikZ
+\usepackage{tikz}
+\tikzstyle{node} = [shape=circle,draw,fill=oceangreen!20,inner sep=2pt, minimum width=4pt]
+\tikzstyle{box} = [shape=rectangle,draw,fill=oceangreen!20,inner sep=2pt,minimum width=3cm,minimum height=1cm]
+
+% Headline
+\defbeamertemplate*{headline}{infolines theme}{
+  \leavevmode%
+  \begin{beamercolorbox}[ht=4.5em]{section in head/foot}%
+    % Logo
+    \begin{beamercolorbox}[wd=0.85\paperwidth,ht=4.5em]{}%
+      % Position
+      \hspace*{1.5em}\vspace*{-0.6em}%
+      % Graphics
+      \includegraphics[height=4.5em]{img/isp_uni_en_for.pdf}%
+    \end{beamercolorbox}%
+    % Top right box of header
+    \begin{beamercolorbox}[wd=0.15\paperwidth,ht=4.5em,dp=2ex]{}%
+      % Position
+      \hspace*{1.5em}\vspace*{-0.4em}%
+      % Graphics
+      \includegraphics[height=3.2em]{img/Logo_ISP_CMYK.pdf}%
+    \end{beamercolorbox}%
+  \end{beamercolorbox}
+}%
+% Frametitle
+\setbeamertemplate{frametitle}{%
+  \begin{beamercolorbox}[wd=\paperwidth,left,ht=2ex,dp=0.55ex]{structure}%
+  {\hspace*{1em}\insertframetitle\hspace*{1em}}%
+  \end{beamercolorbox}%
+}%
+% Footline
+\defbeamertemplate*{footline}{infolines theme}{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[ht=1em,dp=1ex]{structure}%
+    % Author (short)
+    \begin{beamercolorbox}[wd=.33\paperwidth,ht=1em,left]{}%
+      \usebeamerfont{author in head/foot}\hspace*{2ex}\insertshortauthor%
+    \end{beamercolorbox}%
+    % Date (short)
+    \begin{beamercolorbox}[wd=.33\paperwidth,ht=1em,center]{}%
+      \usebeamerfont{date in head/foot}\insertshortdate{}%
+    \end{beamercolorbox}%
+    % Current frame number and total frame number
+    \begin{beamercolorbox}[wd=.33\paperwidth,ht=1em,right]{}%
+      \usebeamerfont{framenumber in head/foot}\insertframenumber{}/%
+      \inserttotalframenumber{}\hspace*{2ex}%
+    \end{beamercolorbox}%
+  \end{beamercolorbox}%
+  }%
+  \vskip0pt%
+}%
+
+% Block style
+\definecolor{examplegreen}{RGB}{150, 255, 200}
+
+\setbeamertemplate{blocks}[rounded]
+\setbeamercolor{block title}{use=structure}
+\setbeamercolor*{block title alerted}{use=structure,fg=oceangreen,bg=red!20}
+\setbeamercolor*{block title example}{use=structure,fg=oceangreen,bg=examplegreen}
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!50!bg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!25!bg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=block title example.bg!25!bg} 
+
+\mode<all>
+
+

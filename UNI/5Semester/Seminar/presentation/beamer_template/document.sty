@@ -1,0 +1,78 @@
+% Corporate Design
+\usepackage{xcolor}
+\usepackage{textpos}
+\usepackage{verbatim}
+\setlength{\TPHorizModule}{1cm}
+\setlength{\TPVertModule}{1cm}
+
+\usepackage[
+top    = 3.25cm,
+bottom = 3.00cm,
+left   = 3.25cm,
+right  = 3.00cm]{geometry}
+
+\usepackage{setspace}
+\setstretch{1.0}
+\setlength{\parindent}{0pt}
+\renewcommand*\arraystretch{1.0}
+
+\usepackage{palatino}
+\fontfamily{ppl}
+\selectfont
+
+\definecolor{oceangreen}{cmyk}{1,.0,.20,.78}
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-3.5ex \@plus -1ex \@minus -.2ex}%
+  {1ex \@plus.2ex}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{1}{\z@}%
+  {-3.5ex \@plus -1ex \@minus -.2ex}%
+  {1ex \@plus.2ex}%
+  {\normalfont\normalsize\bfseries}}
+
+% Use TikZ
+\usepackage{tikz}
+\tikzstyle{node} = [shape=circle,draw,fill=oceangreen!10,inner sep=2pt, minimum width=4pt]
+\tikzstyle{box} = [shape=rectangle,draw,fill=oceangreen!10,inner sep=2pt,minimum width=3cm,minimum height=1cm]
+
+\usepackage{ifthen}
+\newcommand{\ifthen}[2]{\ifthenelse{#1}{#2}{}}
+
+% Default commandvariables
+\newcommand{\document@term}{}
+\newcommand{\document@course}{}
+\newcommand{\document@authors}{}
+\newcommand{\document@title}{}
+\newcommand{\document@subtitle}{}
+\newcommand{\document@date}{}
+
+% Modifiers
+\newcommand{\documentCourse}[1]{\renewcommand{\document@course}{#1}}
+\newcommand{\documentAuthors}[1]{\renewcommand{\document@authors}{#1}}
+\newcommand{\documentTerm}[1]{\renewcommand{\document@term}{#1}}
+\newcommand{\documentTitle}[1]{\renewcommand{\document@title}{#1}}
+\newcommand{\documentSubtitle}[1]{\renewcommand{\document@subtitle}{#1}}
+\newcommand{\documentDate}[1]{\renewcommand{\document@date}{#1}}
+
+% Printing down the exercise header
+\newcommand{\printDocumentHeader}{%
+\noindent%
+\begin{textblock}{12}[0,0](-0.9, -1.9)%
+\includegraphics[height=2.1cm]{img/isp_uni_en_for}%
+\end{textblock}%
+\begin{textblock}{2}[1,0](15.9, -0.9)%
+\includegraphics[height=1.3cm]{img/Logo_ISP_CMYK}%
+\end{textblock}%
+\vspace{1.5em}%
+\noindent%
+{\bfseries\document@course} \hfill \document@term \\%
+\noindent%
+\document@authors \hfill \document@date%
+\begin{center}%
+{\bfseries\LARGE\document@title}%
+\ifthen{\not\equal{\document@subtitle}{}}{\\[0.25em]%
+\document@subtitle%
+}%
+\end{center}%
+\vspace{0.5em}%
+}

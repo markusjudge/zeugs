@@ -1,0 +1,613 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Linux Basics
+\end_layout
+
+\begin_layout Part
+Done
+\end_layout
+
+\begin_layout Section
+Live-USB
+\end_layout
+
+\begin_layout Standard
+mount 
+\begin_inset Formula $\Leftrightarrow$
+\end_inset
+
+Übersicht über eingehängte Geräte.
+\end_layout
+
+\begin_layout Standard
+dd if=<datei> of=<gerät> bs=4M; sync
+\end_layout
+
+\begin_layout Section
+Backup/Restore
+\end_layout
+
+\begin_layout Standard
+http://michi-bs.blogspot.de/2008/06/hdd-or-partition-backup-with-dd.html
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+# dd if=/dev/hda1 | gzip -c | split -b 2000m - /mnt/hdc1/backup.img.gz.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To restore the multi-file backup, do the following:
+\end_layout
+
+\begin_layout Standard
+# cat /mnt/hdc1/backup.img.gz.* | gzip -dc | dd of=/dev/hda1
+\end_layout
+
+\begin_layout Section
+Mount LVM Disk using Live CD
+\end_layout
+
+\begin_layout Standard
+http://linuxwave.blogspot.de/2007/11/mounting-lvm-disk-using-ubuntu-livecd.html
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+1.
+ Get a live cd, for example, Ubuntu.
+ For this article, I use Ubuntu 6.06 (I cannot find any latest version of
+ ubuntu at my place)
+\end_layout
+
+\begin_layout Standard
+2.
+ Boot using the live cd.
+ Search for these tools: lvm2.
+ If the cd do not have it, install it.
+ # apt-get install lvm2
+\end_layout
+
+\begin_layout Standard
+3.
+ To make sure the harddisk is recognised, you can use fdisk # fdisk -lu
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align block
+4.
+ Once installed, run pvscan to scan all disks for physical volume.
+ this to make sure your LVM harddisk is detected by Ubuntu # pvscan PV /dev/sda2
+ VG VolGroup00 lvm2 [74.41 GB / 32.00 MB free] Total: 1 [74.41 GB] / in use:
+ 1 [74.41 GB] / in no VG: 0 [0 ]
+\end_layout
+
+\begin_layout Standard
+5.
+ After that run vgscan to scan disks for volume groups.
+ # vgscan Reading all physical volumes.
+ This may take a while...
+ Found volume group "VolGroup00" using metadata type lvm2
+\end_layout
+
+\begin_layout Standard
+6.
+ Activate all volume groups available.
+ # vgchange -a y 2 logical volume(s) in volume group "VolGroup00" now active
+\end_layout
+
+\begin_layout Standard
+7.
+ Run lvscan to scan all disks for logical volume.
+ You can see partitions inside the hard disk now active.
+ # lvscan ACTIVE '/dev/VolGroup00/LogVol00' [72.44 GB] inherit ACTIVE '/dev/VolGr
+oup00/LogVol01' [1.94 GB] inherit
+\end_layout
+
+\begin_layout Standard
+8.
+ Mount the partition to any directory you want, usually to /mnt # mount
+ /dev/VolGroup00/LogVol00 /mnt
+\end_layout
+
+\begin_layout Standard
+9.
+ You can access the partition in the /mnt directory and can backup your
+ data
+\end_layout
+
+\begin_layout Subsection*
+Anmerkung:
+\end_layout
+
+\begin_layout Standard
+Meist muss man nach /dev/ noch das mapping anfügen, also /dev/mapping/...
+\end_layout
+
+\begin_layout Section
+Juniper Network Connect
+\end_layout
+
+\begin_layout Standard
+http://www.rz.uni-karlsruhe.de/~iwr91/juniper/
+\end_layout
+
+\begin_layout Standard
+The standard method for Linux users to establish a VPN connection with a
+ Secure Access (SA) device by Juniper Networks is to login via web browser
+ and to click the Start button next to Network Connect in the Client Application
+ Sessions panel.
+ At first use the software is downloaded and installed automatically.
+ Advantage: you don't have to know anything (if it works out of the box),
+ disadvantage: you need a web browser and you need Java every time you want
+ to start the network connect client.
+\end_layout
+
+\begin_layout Standard
+This Howto will explain how you can use network connect if you don't want
+ to have to login via web browser everytime you want to start a VPN connection
+ and/or if you don't want or cannot use Java (plugin) at all.
+ It is possible to get, install and run network connect completely without
+ Java.
+ The ncsvc (network connect service) binary is a 32-bit executable which
+ uses shared libs.
+ So if you use a 64-bit system, you have to install the 32-bit version of
+ the GNU C library (Debian/Ubuntu: package libc6-i386), of the compression
+ library zlib (Debian/Ubuntu: package lib32z1) and of the NSS module for
+ Multicast DNS name resolution (Debian/Ubuntu: package lib32nss-mdns).
+\end_layout
+
+\begin_layout Standard
+If you've already downloaded the client software, it's possible to start
+ network connect from the command line.
+ Either with or without the Java GUI.
+ Just have a look at the Help provided by Juniper Networks: If you're logged
+ in on the web page of your Juniper SSL/VPN site, click the Help button
+ and choose Sessions / Using Network Connect (Linux) in the menu bar.
+ This is helpful but there are still some disadvantages: there's no configuratio
+n file possible, parameters like host and user name must be given as command
+ line options.
+ Moreover there's a problem with the user password.
+ Either you give it as command line option (but then it's visible in the
+ system's process list, so this is not a good idea) or you omit it, then
+ it will be prompted afterwards.
+ But the client won't detach itself from the window it was started from
+ and you can't detach it directly (using &) because you've first to wait
+ for the password prompt.
+ Another unhandy thing is that if you use the Java GUI, the GUI will be
+ started before you entered the password, so you have to switch back to
+ the window where the password is prompted.
+ Another point is certificate handling: network connect needs the host certifica
+te of the Juniper SSL/VPN site to connect.
+ First this is not very comfortable, second it would be more reasonable
+ to verify the certificate that the host offers with the appropriate trusted
+ certificate authority.
+ Anyway: you have to verify the certificate that you download from the host
+ and it would be more comfortable if this would be done automatically.
+\end_layout
+
+\begin_layout Standard
+The solution is to use a wrapper for the network connect client which overcomes
+ these disadvantages: jnc is a Perl program which does this job.
+ Howto
+\end_layout
+
+\begin_layout Standard
+First you need the network connect client software from Juniper Networks.
+\end_layout
+
+\begin_layout Standard
+If the Java plugin from Sun Microsystems is installed on your system and
+ you use a 32-bit Linux (sun-java6-plugin works for me on Debian/Ubuntu
+ 32-bit), then just connect once using the standard user interface via web
+ browser (Firefox is supported by Juniper Networks, Opera worked for me,
+ too).
+ You are asked for the root password because the setuid bit of the ncsvc
+ binary must be set.
+ If you don't have a root password (e.
+ g.
+ because you use Ubuntu) just press CTRL+D to abort.
+ Nevertheless the software will be downloaded to the directory ~/.juniper_network
+s/network_connect.
+ Just make sure the binaries have the required permissions:
+\end_layout
+
+\begin_layout Standard
+$ sudo chown root:root ~/.juniper_networks/network_connect/ncsvc $ sudo chmod
+ 6711 ~/.juniper_networks/network_connect/ncsvc $ chmod 744 ~/.juniper_networks/ne
+twork_connect/ncdiag
+\end_layout
+
+\begin_layout Standard
+If the Sun Java doesn't work on your system with Juniper (64-bit Linux)
+ or you don't want to use Java, just login on the web site of your Juniper
+ SSL/VPN and change the URL as follows: If the site's URL is https://vpn.kit.edu
+ enter https://vpn.kit.edu/dana-cached/nc/ncLinuxApp.jar and download the file
+ ncLinuxApp.jar.
+ Then execute the following commands:
+\end_layout
+
+\begin_layout Standard
+$ mkdir -p ~/.juniper_networks/network_connect/ $ unzip ncLinuxApp.jar -d
+ ~/.juniper_networks/network_connect/ $ sudo chown root:root ~/.juniper_networks/n
+etwork_connect/ncsvc $ sudo chmod 6711 ~/.juniper_networks/network_connect/ncsvc
+ $ chmod 744 ~/.juniper_networks/network_connect/ncdiag
+\end_layout
+
+\begin_layout Standard
+Download jnc, copy it to an appropriate directory (e.
+ g.
+ /usr/local/bin) and make it executable:
+\end_layout
+
+\begin_layout Standard
+$ chmod a+x jnc
+\end_layout
+
+\begin_layout Standard
+In addition to perl openssl must be installed to use it.
+ If you want to use the GUI, Java from Sun Microsystems must be available,
+ too, of course.
+\end_layout
+
+\begin_layout Standard
+If you use a 64-bit Linux the Network Connect Java GUI will not work.
+ So remember to start jnc with option --nox (or -n), see below.
+ Also install the 32-bit versions of the required libraries.
+ On Debian/Ubuntu: $ aptitude install libc6-i386 lib32z1 lib32nss-mdns
+\end_layout
+
+\begin_layout Standard
+Create the directory for the configuration files
+\end_layout
+
+\begin_layout Standard
+$ mkdir -p ~/.juniper_networks/network_connect/config
+\end_layout
+
+\begin_layout Standard
+and create a configuration file in this directory.
+ It must be named somename.conf.
+\end_layout
+
+\begin_layout Standard
+Example config file (Karlsruhe Institute of Technology (KIT) users: click
+ here)
+\end_layout
+
+\begin_layout Standard
+host=foo.bar.com user=username password=secret realm=very long realm with
+ spaces cafile=/etc/ssl/bar-chain.pem certfile=
+\end_layout
+
+\begin_layout Standard
+password and realm are optional.
+ cafile: ca chain to verify the host certificate certfile: host certificate
+ in DER format cafile or certfile must be configured.
+\end_layout
+
+\begin_layout Standard
+If you don't know about any realm there's possibly only one, so you can
+ omit this configuration option.
+ You can also find out your realm by viewing the page source of your sign-in
+ page: just search for the word realm in it.
+\end_layout
+
+\begin_layout Standard
+Start network connect with
+\end_layout
+
+\begin_layout Standard
+$ jnc somename
+\end_layout
+
+\begin_layout Standard
+or
+\end_layout
+
+\begin_layout Standard
+$ jnc --nox somename
+\end_layout
+
+\begin_layout Standard
+for use without GUI.
+ To stop the client, just (click Sign Out in the Java GUI or) execute
+\end_layout
+
+\begin_layout Standard
+$ jnc stop
+\end_layout
+
+\begin_layout Standard
+For more options see
+\end_layout
+
+\begin_layout Standard
+$ jnc --help
+\end_layout
+
+\begin_layout Standard
+Updating the client: if your Juniper SSL/VPN site was upgraded to a new
+ firmware version there could be also a new network connect client version
+ available.
+ To get it, just repeat step one in this howto.
+ You don't have to remove any files before.
+\end_layout
+
+\begin_layout Subsection*
+Anmerkung:
+\end_layout
+
+\begin_layout Standard
+\noindent
+So sieht die uni.conf aus:
+\end_layout
+
+\begin_layout Standard
+host=sslgate.uni-luebeck.de 
+\begin_inset Newline newline
+\end_inset
+
+user=richter 
+\begin_inset Newline newline
+\end_inset
+
+realm=ohne Host-Überprüfung 
+\begin_inset Newline newline
+\end_inset
+
+cafile=/etc/ssl/ca
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+cafile verwenden!
+\end_layout
+
+\begin_layout Section
+Temperatur-/Lüftersteuerung
+\end_layout
+
+\begin_layout Standard
+http://thinkwiki.de/Thinkfan
+\end_layout
+
+\begin_layout Section
+Trackpoint
+\end_layout
+
+\begin_layout Standard
+http://wiki.ubuntuusers.de/Trackpoint#Trackpoint-wird-nicht-erkannt-nur-ThinkPad-L
+430-530
+\end_layout
+
+\begin_layout Standard
+Super+t = disable Touchpad
+\end_layout
+
+\begin_layout Standard
+Super+e = enable Touchpad
+\end_layout
+
+\begin_layout Standard
+TODO: automatisches toggle, also nur ein Kürzel!
+\end_layout
+
+\begin_layout Section
+Verschlüsselung
+\end_layout
+
+\begin_layout Standard
+http://www.howtoforge.com/encrypt-your-data-with-encfs-debian-squeeze-ubuntu-11.10
+\end_layout
+
+\begin_layout Standard
+df -h
+\end_layout
+
+\begin_layout Standard
++Cryptkeeper
+\end_layout
+
+\begin_layout Section
+Helligkeit dauerhaft sichern
+\end_layout
+
+\begin_layout Standard
+http://aahank.com/2013/save-brightness-settings-in-ubuntu-debian/
+\end_layout
+
+\begin_layout Standard
+# echo NUMBER > /sys/class/backlight/acpi_video0/brightness
+\end_layout
+
+\begin_layout Standard
+Anmerkung: 60 ist ein guter Wert.
+\end_layout
+
+\begin_layout Section
+WINE
+\end_layout
+
+\begin_layout Standard
+http://www.binarytides.com/install-wine-debian-wheezy/
+\end_layout
+
+\begin_layout Section
+Google Drive 
+\end_layout
+
+\begin_layout Standard
+http://www.webupd8.org/2012/05/grive-open-source-google-drive-client.html
+\end_layout
+
+\begin_layout Part
+TODO
+\end_layout
+
+\begin_layout Section
+APS Active Protection
+\end_layout
+
+\begin_layout Standard
+https://wiki.archlinux.org/index.php/Hard_Drive_Active_Protection_System
+\end_layout
+
+\begin_layout Standard
+Funktioniert bei L430 nicht.
+ 
+\end_layout
+
+\begin_layout Section
+WLAN-LED
+\end_layout
+
+\begin_layout Section
+Touchpad deaktivieren
+\end_layout
+
+\begin_layout Standard
+http://www.uplawski.eu/technology/linux/touchpad_en.html
+\end_layout
+
+\begin_layout Standard
+#apt-get install xinput
+\end_layout
+
+\begin_layout Standard
+#xinput --list
+\end_layout
+
+\begin_layout Standard
+#xinput --list-props 12 #wobei 12 die id ist
+\end_layout
+
+\begin_layout Standard
+#xinput --set-prop 12 "Device Enabled" 0
+\end_layout
+
+\begin_layout Section
+Kalibrierung
+\end_layout
+
+\begin_layout Standard
+https://help.gnome.org/users/gnome-color-manager/3.1/gnome-color-manager.html#prefer
+ences-calibration
+\end_layout
+
+\begin_layout Section
+Gnome3 Terminal Transparenz
+\end_layout
+
+\begin_layout Standard
+https://xyzhou.com/blogs/easy-transparent-terminal-solution-install-devilspie2-wi
+th-gnome3-on-arch-linux
+\end_layout
+
+\begin_layout Standard
+apt-get install devilspie2
+\end_layout
+
+\begin_layout Standard
+Script in ~/.config/devilspie2/irgendwas.lua
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+if (get_application_name() == "Terminal") then set_window_opacity(0.85) set_windo
+w_size(1000, 650) center() end
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+...
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\end_body
+\end_document
