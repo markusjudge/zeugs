@@ -1,0 +1,13 @@
+\frametitle<presentation>{JSP - JavaServer Pages}
+  \begin{exampleblock}{Example}
+    \begin{lstlisting}[language=html, captionpos=b,caption={Java embedded in HTML. Taken from \cite{downey2008web}},label=lst:jsp]
+        Hobby:
+        <input type="text" name="hobby"
+        value="${refData.hobby}">
+        <br>
+        Aversion:
+        <input type="text" name="aversion"
+        value="${refData.aversion}">
+    \end{lstlisting}
+  \end{exampleblock}
+
