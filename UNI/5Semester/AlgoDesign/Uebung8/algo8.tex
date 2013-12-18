@@ -1,0 +1,150 @@
+\documentclass[a4paper, fontsize=10pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{stmaryrd}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathpazo} %schickere Schriftart für Text
+\usepackage{MnSymbol} %schickere Symbole
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{shadethm}
+\usepackage[all,2cell,ps]{xy}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{color}		%Farben ermöglichen
+\usepackage{colortbl} %Tabellen mit Farbe ermöglichen
+\usepackage{hyperref} %Hyperlinks einfügbarisieren
+\usepackage{fancyvrb} %verbatim mit mehr Variationen
+\usepackage{listings} %Quellcode mit listings einbinden
+\usepackage{moreverb}
+\usepackage{tocloft} %tableofcontent mit Optionen
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usetikzlibrary{arrows}
+% \usepackage{ulem} %neue Befehle für Unterstriche
+\usetikzlibrary{arrows,calc,shapes.multipart,chains}
+\usetikzlibrary{calc,positioning}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\lstloadlanguages{Java} %Standardmäßig Java vorher laden
+% Standard-Layout für die Code-Umgebung (alle Sprachen)
+\lstset{%
+      basicstyle=\small\ttfamily,
+     showspaces=false,
+     showtabs=false,
+     columns=fixed,
+     numbers=left,
+     frame=none,
+     numberstyle=\tiny,
+     breaklines=true,
+     showstringspaces=false,
+     xleftmargin=1cm,
+     tabsize=4
+}%
+\setlength\topmargin{-1cm}
+\textheight 23cm
+\textwidth 14cm
+\setlength\oddsidemargin{1cm}
+\setlength\evensidemargin{3.5cm}
+\parindent=0pt
+\setlength{\saveparindent}{\parindent}
+%\pagestyle{empty}
+\newcommand{\rem}[1]{} %rem-Kommentiermöglichkeit
+\definecolor{dg}{rgb}{0.8,0.8,0.8}		%definiert dunkelgrau
+\definecolor{hg}{rgb}{0.95,0.95,0.95}	%definiert hellgrau
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+ 
+\begin{document} 
+
+{\huge{Algorithmendesign} \hfill \large{ Gruppe 2}}\\  
+{\large Lösungen zu Übungsblatt 8} \hfill Max Bannach\\
+{\large WS 13/14}
+\begin{flushright}Markus Richter (614027)\end{flushright}
+\rule{\textwidth}{.3mm}
+
+\section*{Aufgabe 8.1 Union-Find-Darstellungen}
+\subsection*{Teilaufgabe 1 und 2)}
+siehe Anhang.
+
+\section*{Aufgabe 8.2 Ein Spiel}
+
+\subsection*{Teilaufgabe 1}
+In der ersten Runde sollte man unbedingt $k=1$ wählen und als Schätzung $x_1=2$. Nur so ist garantiert, dass man auf keinen Fall bereits in der ersten Runde verliert, falls z. B. der Gegenspieler eine $1$ wählt. Hat der Gegner die $1$ gewählt so gewinnt man in der nächsten Runde, bei $2$ sofort und in allen anderen Fällen hat man sich für die nächste Runde mindestens $k=3$ erkauft. 
+
+\subsection*{Teilaufgabe 2}
+Die Strategie besteht darin zunächst ein Intervall zu finden in dem die gesuchte Zahl liegt. Anschließend sucht man in Einzelschritten nach $y$. Das $k$ benutzt man als Anzahl der Folgenglieder einer fortschreitend exponentiell zur Basis 2 steigenden Folge, d. h. der Suchraum wächst fortwährend exponentiell pro Runde. Man kann auch einfach sagen der Suchraum wächst gemäß itexp. \smallskip
+
+Man geht folgendermaßen vor:
+\begin{enumerate}
+  \item Beginne mit $k=1$ und $x_1=2$
+  \item Falls $y>x_1$: Setze für nächste Runde $k=3$ und $x_1=4, x_2=8, x_3=16$
+  \item Falls nun  $y>x_3$: Setze für nächste Runde $k=17$ und $x_1=32, x_2=64 \dots$. usw.
+  \item Falls aber in einer Runde für ein $x_i\in \{ x_1\dots x_k\}$ gilt: $x_{i-1}<y\textrm{ und } x_{i} > y$ so ist das Intervall gefunden: $y \in \left]x_{i-1};x_{i}\right[$. Das ist auch für rundenübergreifende Werte möglich, z. B. wenn in Runde $j$ gilt $x_k<y$ und in Runde $j+1$ gilt $x_1>y$. 
+  \item Hat man ein Intervall  $\left]x_{i-1};x_{i}\right[$ gefunden, so hat man in der nächsten Runde $x_{i-1}+1$ Einzelschritte zwischen $x_{i-1}$ und $x_{i}$ um $y$ zu finden. Das ist auf jeden Fall ausreichend. Man wählt also zum Schluss in der letzten Runde $k=x_{i-1}+1$ und $x_1=x_{i-1}+1, x_2={x_1+1}, \dots, x_{k'< k}={x_i}-1$. Einer dieser Werte wird der gesuchte Wert $y$ sein. 
+\end{enumerate}\smallskip
+
+Dadurch, dass der Suchraum gemäß itexp wächst wird das Intervall definitiv in $\mathcal{O}(\textrm{itlog}y)$ Runden gefunden. Zusätzlich kommt eine Runde, die aber als Konstante in der $\mathcal{O}$-Notation keine Bedeutung hat. 
+
+\newpage
+
+\textbf{Beispiel}
+Gesucht sei $y=177$\bigskip
+
+
+\begin{center}
+  \begin{tabular}{rrrr}
+  \textbf{Runde} & \textbf{k}   & \textbf{Schätzungen}                            & \textbf{Antwort}\\
+  \hline \\
+  1     & 1   & $2$                                     & $y>2$\\
+  2     & 3   & $4,8,16$                                & $y>4,y>8,y>16$\\
+  3     & 17  & $32, 64, 128, 256, \dots$               & $y>32, y>64, y>128, y<256$\\
+  4     & $(256-129=127)$ & $129, 130,  \dots, 177, \dots, 256$   & $y>129, y>130, \dots, y=177$ (!)
+  \end{tabular}
+\end{center}
+
+\section*{Aufgabe 8.3 Minimal spannende Bäume}
+
+\subsection*{Teilaufgabe 1}
+Sei $K$ ein nicht minimaler spannender Baum, der durch den Kruskal Algorithmus für eine bestimmte Eingabe erzeugt wurde. Sei weiterhin $L$ ein minimaler spannender Baum für dieselbe Eingabe. Wir betrachten jetzt die erste Kante $e=(x,y) \in E$, bei der sich beide Bäume zum ersten Mal unterscheiden. Es gilt $e \in K$ und $e \not\in L$.\smallskip
+
+$L$ ist minimal aufspannend und enthält nicht $e$, das bedeutet, dass $L\cup \{e\}$ einen Kreis $C$ bilden würde. Sei also $C$ dieser Kreis. Die Folgerung daraus ist nun, dass es eine Kante $f$ in $C \diagdown \{e\}$ geben muss, deren Gewicht höher ist als $e$, andernfalls hätte Kruskal $f$ bereits betrachtet. $L$ hat nun eine höhere Gewichtung, kann also nicht optimal sein. Sei nun $L'=L\cup \{e\} \diagdown \{f\}$, so ist $L'$ wieder optimal, allerdings entspricht $L'$ nun genau $K$. Daraus folgt, das $K$ optimal sein muss und damit, dass der Kruskal-Algorithmus immer einen minimal spannenden Baum liefert.
+\begin{flushright}$\blacksquare$\end{flushright} 
+
+
+\subsection*{Teilaufgabe 2}
+Ein naiver Kreistest würde, meiner Meinung nach -- denn ich weiß nicht wie ein allgemein naiver Kreistest aussieht --, erst einmal das $e_i$ hinzufügen und dann jeden Pfad ausgehend in eine Richtung von $e_i$ verfolgen und beim ersten Wiedereintreffen bei $e_i$ einen Kreis melden. Im schlimmsten Fall müsste dieser Test alle Kanten durchgehen. Da Kruskal bereits alle Kanten betrachtet würde der Algorithmus mit der oben beschriebenen Kreissuche $\mathcal{O}(|E|\cdot|E|)$ benötigen.
+
+\subsection*{Teilaufgabe 3}
+\begin{algorithm}[H]
+  \caption{\textsc{Kruskal Union-Find}}
+    \begin{algorithmic}[1]
+        \REQUIRE  Ungerichteter, zusammenhängender Graph $G=(V,E)$ Kantengewichtsfunktion $\gamma$
+        \ENSURE A 
+        \STATE $A \leftarrow \emptyset$
+        \STATE Sortiere die Kanten aufsteigend nach ihrem Gewicht und erhalte die Reihenfolge $e_1,\dots,e_{|E|}$
+            \FOR{ jeden Knoten $v\in V$}  
+              \STATE \textsc{Make-Set}($v$)
+            \ENDFOR 
+            
+             \FOR{ $i=1$ to $|E|$ sei $e=e_i=(u,v)$}  
+                \IF{\textsc{Find-Set}$(u)\neq$ \textsc{Find-Set}$(v)$ }
+                \STATE $A=A\cup \{e\}$
+                \STATE \textsc{Union}$(u,v)$
+                \ENDIF
+            \ENDFOR
+      \RETURN A       
+  \end{algorithmic}
+\end{algorithm}\bigskip
+
+\textbf{Korrektheit}: 
+Der Algorithmus erzeugt für jeden Knoten eine Menge, sodass theoretisch auch jeder Knoten mit jedem anderen vereinigt werden kann. Weiterhin werden die Kanten nach ihrem Gewicht sortiert, was sicherstellt, dass die Kanten mit geringerem Gewicht zuerst betrachtet werden. Darüber hinaus überprüft der Algorithmus für zwei zu vereinende Knoten $u,v$ ob diese zur selben Menge gehören und vereinigt erst wenn das ausgeschlossen werden kann, d. h. $u$ und $v$ haben dann nicht denselben Repräsentanten. Dieses Verfahren schließt Kreise aus. Da nun alle Kanten betrachtet werden ist auch sichergestellt, das immer ein korrektes und sogar optimales Ergebnis zurückgegeben wird. \smallskip
+
+\textbf{Laufzeit}:
+\textsc{Make-Set} erzeugt für alle $v\in V$ insgesamt einen linearen Aufwand. Das Sortieren kostet $\mathcal{O}(n\log n)$. Die zweite For-Schleife benötigt $|E|$ mal nahezu konstanten Aufwand, da ein \textsc{Find-Set} $\mathcal{O}(1)$ benötigt. Die Gesamtlaufzeit beträgt daher $\mathcal{O}(|E|)$. 
+\end{document}
