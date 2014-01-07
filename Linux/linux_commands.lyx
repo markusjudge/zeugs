@@ -598,15 +598,87 @@ w_size(1000, 650) center() end
 \begin_inset Newline newline
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 ...
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
+USB mount, list devices etc.
+\end_layout
 
+\begin_layout Standard
+http://devtidbits.com/2013/03/21/using-usb-external-hard-disk-flash-drives-with-t
+o-your-raspberry-pi/
+\end_layout
+
+\begin_layout Section
+Raspberry Pi, root on sd, usb mount
+\end_layout
+
+\begin_layout Standard
+http://c-mobberley.com/wordpress/index.php/2013/04/13/moving-raspberry-pi-root-fol
+ders-from-sd-card-to-usb-hdd/
+\end_layout
+
+\begin_layout Section
+mount img-Files
+\end_layout
+
+\begin_layout Standard
+http://www.linuxquestions.org/questions/linux-software-2/mounting-a-single-fat32-p
+artition-inside-a-full-disc-image-776922/#post3798799
+\end_layout
+
+\begin_layout Section
+nohup, no hang up after terminal closing
+\end_layout
+
+\begin_layout Standard
+http://go2linux.garron.me/nohup-run-programs-ignoring-hangup-signal
+\end_layout
+
+\begin_layout Section
+RasPi swapfile
+\end_layout
+
+\begin_layout Standard
+http://raspberrypi.stackexchange.com/questions/70/how-to-set-up-swap-space
+\end_layout
+
+\begin_layout Standard
+Only use with USB-drive!
+\end_layout
+
+\begin_layout Section
+RasPi Pyload
+\end_layout
+
+\begin_layout Standard
+http://jankarres.de/2013/06/raspberry-pi-how-to-install-pyload-downloadmanager/
+\end_layout
+
+\begin_layout Section
+Git Server
+\end_layout
+
+\begin_layout Itemize
+http://blog.daniel-weisensee.de/2013/07/26/raspberry-pi-git-server-einrichten/
+\end_layout
+
+\begin_layout Standard
+Limit git user to git shell!
+\end_layout
+
+\begin_layout Itemize
+http://www.fclose.com/366/set-up-git-server-through-ssh-connection/#comment-437
+\end_layout
+
+\begin_layout Section
+Assign Group to User
+\end_layout
+
+\begin_layout Standard
+https://stackoverflow.com/questions/7283068/how-to-add-an-existing-user-into-a-gr
+oup-in-linux
 \end_layout
 
 \end_body
