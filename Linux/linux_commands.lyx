@@ -681,5 +681,29 @@ https://stackoverflow.com/questions/7283068/how-to-add-an-existing-user-into-a-g
 oup-in-linux
 \end_layout
 
+\begin_layout Section
+RasPi VPN Server
+\end_layout
+
+\begin_layout Standard
+http://jankarres.de/2013/05/raspberry-pi-openvpn-vpn-server-installieren/
+\end_layout
+
+\begin_layout Standard
+https://www.datenreise.de/raspberry-pi-vpn-server-einrichten-anleitung/
+\end_layout
+
+\begin_layout Section
+PyLoad Download ASCII Fehler
+\end_layout
+
+\begin_layout Standard
+"dpkg -i pyload-cli-v0.4.9-all.deb" beseitigt das problem
+\end_layout
+
+\begin_layout Standard
+http://forum.pyload.org/viewtopic.php?f=10&t=1793
+\end_layout
+
 \end_body
 \end_document
