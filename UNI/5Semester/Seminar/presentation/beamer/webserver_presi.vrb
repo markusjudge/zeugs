@@ -1,0 +1,16 @@
+\frametitle<presentation>{SRPT - Shortest Remaining Processing Time first}
+  \begin{itemize}
+    \item Size-based scheduling goes along with SRPT
+  \end{itemize}
+
+  \begin{block}{SRPT}
+    Preemptive Shortest Remaining Process Time first algorithm
+  \end{block}
+
+\begin{figure}[h]
+\centerline{\includegraphics[width=10cm]{pics/srpt.pdf}}
+\caption{(Left) Mean response time for static requests. (Right) Response time as a function of the size of the requested file, system load is fixed at
+$\rho$ = 0.8. Taken from \cite{schorederSchedule}}
+\label{fig-srpt}
+\end{figure}
+

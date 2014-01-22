@@ -1,0 +1,66 @@
+% This template is kept quite simple in order to maintain the possibility of
+% merging different documents using this particular template into a single
+% volume. Please do not change the following layouting options.
+\documentclass[
+  a4paper,               % a4 paper
+  twoside,               % two sided
+  headings=small,        % chapter and section headings are smaller
+  DIV=12,                % use a 12 part division of paper
+  BCOR=1cm,              % use 1cm correction for binding
+  headinclude=true,      % include header inside typearea
+  footinclude=true,      % include footer inside typearea
+  numbers=noenddot,      % no full stop after after last number of titles
+  11pt]{scrartcl}        % 11 point article
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{palatino}
+\usepackage{graphicx}
+\usepackage{caption}
+\fontfamily{ppl}
+\selectfont
+\pagestyle{empty}
+\usepackage{setspace}
+\setlength{\parindent}{0ex}
+\setlength{\parskip}{0.5em}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{listings}
+
+
+% You may add additional libraries here, but please do not mix up the layout.
+
+\usepackage{graphicx}
+\usepackage{tikz}
+
+
+
+\lstset{% 
+numbers=left, numberfirstline=true
+}%
+\begin{document}
+
+\begin{center}
+\textbf{\huge Gesprächsprotokoll - Themensetzung} \\[1em]
+Markus Richter (\url{richter@informatik.uni-luebeck.de})
+\end{center}
+
+% \tableofcontents
+
+\section*{Implementierung eines generischen Algorithmus zur Lösung von Erreichbarkeitsproblemen in wohl-strukturierten Transitionssystemen}
+Am Dienstag, dem 07.01.2014, wandte ich mit an Normann Decker, um über die Themensetzung zu reden.
+
+Normann und ich unterhielten uns zunächst über das Thema der Wohl-Quasi-Ordnung und der wohl-strukturierten Transitionssysteme. Im Verlauf des Gesprächs wurden zahlreiche Missverständnisse und Unklarheiten beseitigt. 
+
+Anschließend diskutierten wir über den Aufbau und Ablauf der Bachelorarbeit, sowie über die in Frage kommenden Quellen. Es bildete sich eine vorläufige Struktur heraus: Anfänglich eine Motivation des Themas, dann eine Abhandlung über die Theorie, die Implementierung des Algorithmus und abschließend das Hinweisen auf aufgetretene Probleme und deren Lösung. Letzteres sei wichtig, denn schließlich soll die Bachelorarbeit eine Hilfe für Interessierte bieten, die sich ebenfalls an dieses Gebiet wagen und durch meine gewonnen Erkenntnisse evtl. Zeit und Arbeit sparen können. Auch wurde klar gestellt, dass möglicherweise bereits Implementierungen des Algorithmus existieren, wichtig sei aber eine Lösung, die sich in das bestehende Framework einfügt. Abschließend haben wir eine Abgrenzung der Bachelorarbeit definiert.   \bigskip
+
+\textbf{Teilnehmende Personen:}\smallskip
+
+\begin{itemize}
+\item Normann Decker (ISP)
+\item Markus Richter
+\end{itemize}
+
+
+\end{document}

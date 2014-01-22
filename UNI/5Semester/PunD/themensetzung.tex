@@ -1,0 +1,67 @@
+% This template is kept quite simple in order to maintain the possibility of
+% merging different documents using this particular template into a single
+% volume. Please do not change the following layouting options.
+\documentclass[
+  a4paper,               % a4 paper
+  twoside,               % two sided
+  headings=small,        % chapter and section headings are smaller
+  DIV=12,                % use a 12 part division of paper
+  BCOR=1cm,              % use 1cm correction for binding
+  headinclude=true,      % include header inside typearea
+  footinclude=true,      % include footer inside typearea
+  numbers=noenddot,      % no full stop after after last number of titles
+  11pt]{scrartcl}        % 11 point article
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{palatino}
+\usepackage{graphicx}
+\usepackage{caption}
+\fontfamily{ppl}
+\selectfont
+\pagestyle{empty}
+\usepackage{setspace}
+\setlength{\parindent}{0ex}
+\setlength{\parskip}{0.5em}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{listings}
+
+
+% You may add additional libraries here, but please do not mix up the layout.
+
+\usepackage{graphicx}
+\usepackage{tikz}
+
+
+
+\lstset{% 
+numbers=left, numberfirstline=true
+}%
+\begin{document}
+
+\begin{center}
+\textbf{\huge Themensetzung} \\[1em]
+Markus Richter (\url{richter@informatik.uni-luebeck.de})
+\end{center}
+
+% \tableofcontents
+
+\section*{Implementierung eines generischen Algorithmus zur Lösung von Erreichbarkeitsproblemen in wohl-strukturierten Transitionssystemen}
+ 
+Das Thema lautet \emph{Implementierung eines generischen Algorithmus zur Lösung von Erreichbarkeitsproblemen in wohl-strukturierten Transitionssystemen}. Die Bachelorarbeit soll das Interesse an unendlichen Graphen motivieren, speziell an solchen, für deren Zustände es eine Wohl-Quasi-Ordnung gibt, die mit der Kantenrelation kompatibel ist. In dieser Klasse von Graphen, den sog. \emph{wohl-strukturierten Transitionssystemen (WSTS)}, sind viele Erreichbarkeitsprobleme entscheidbar. Als Beispiel sollen die Erreichbarkeitsgraphen von Petrinetzen und Suchprobleme darin herangezogen werden. So ist beispielsweise die Frage, ob für eine gegebene Petrinetz-Konfiguration eine Überdeckung erreichbar ist, eine klassische Instanz eines WSTS-Problems. 
+
+Ziel ist zunächst die Aufarbeitung der bestehenden theoretischen Abhandlungen auf dem Gebiet der Wohl-Quasi-Ordnung und den wohl-strukturierten Transitionssystemen als Grundlage für die Implementierung eines Algorithmus in der Programmiersprache Java. Der Algorithmus soll für einen gegebenen Graphen entscheiden, ob eine bestimmte Menge von Zuständen erreichbar ist oder nicht. Es wird während der Implementierung wichtig sein eine geeignete Datenstruktur zu finden und den Algorithmus in ein bestehendes Framework zu integrieren, was vor allem die Unterstützung von generischen Datentypen voraussetzt. Darüber hinaus soll in der Bachelorarbeit auf aufgetretene Probleme und deren Lösung eingegangen werden. 
+
+Als Quellen dienen hauptsächlich:
+"\begin{itemize}
+  \item \emph{{\glqq}Well-structured transition systems everywhere{\grqq}} von A. Finkel und Ph. Schnoebelen:
+  Ein Artikel, welcher eine ausführliche Übersicht über das Gebiet der wohl-strukturierten Transitionssysteme liefert.
+  \item \emph{{\glqq}The Theory of Well-Quasi-Ordering: A Frequently Discovered Concept{\grqq}} von Joseph B. Kruskal. Erläutert die Theorie der Wohl-Quasi-Ordnung anhand der Definition von partiell geordneten Mengen, auch wohl-partiell-geordnet genannt.
+  \item \emph{{\glqq}Fundamental Structures in Well-Structured Infinite Transition Systems{\grqq}} von Alain Finkel und Philippe Schnoebelen. Eine Ausführliche Abhandlung über die Definition von Wohl-Strukturierten Transitionssystemen. Es wird u. a. von den Petrinetzen ausgehend eine allgemeine Definition von Wohl-Strukturierten Systemen vorgestellt und erläutert. Auch werden Sättigungsmethoden behandelt, mit deren Hilfe eine wohl-geordnete Menge berechnet werden kann.
+\end{itemize}
+
+Die Arbeit soll nicht neue theoretische Konzepte erarbeiten oder bestehende theoretische Probleme lösen, stattdessen steht das Verständnis und die Anwendung der bereits vorhandenen Theorie im Vordergrund. Es soll darüber hinaus keine Komplexitätsabschätzung erfolgen. Auch ist klarzustellen, dass nicht explizit Petrinetze untersucht werden, sondern die algorithmische Analyse einer allgemeinen Klasse von Graphen.
+
+\end{document}
